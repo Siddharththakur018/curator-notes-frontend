@@ -35,11 +35,8 @@ const Sidebar = () => {
               <div key={item.route}>
                 <Link
                   href={item.route}
-                  className={`px-4 py-2 rounded-md flex items-center gap-3 ${isActive ? "bg-gray-200 text-blue-700 font-semibold" : "text-gray-500 hover:bg-gray-100"}`}
+                  className={`px-4 py-2 rounded-md flex items-center gap-3 ${isActive ? "bg-gray-200 text-blue-700 border-l-4 border-l-blue-700 rounded-l-xl font-bold" : "text-gray-500 hover:bg-gray-100"}`}
                 >
-                  {isActive && (
-                    <span className="absolute left-0 top-0 h-full w-1 bg-blue-700 rounded-l-xl"></span>
-                  )}
                   <Icon className="w-5 h-5" />
                   {item.title}
                 </Link>

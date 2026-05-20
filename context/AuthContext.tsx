@@ -8,18 +8,20 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile,
+  UserCredential
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import axiosClient from "@/client/axios";
+import { syncUser } from "@/services/auth.service";
 
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signup: (name: string, email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<UserCredential>;
+  signup: (name: string, email: string, password: string) => Promise<UserCredential>;
   logout: () => Promise<void>;
 };
- 
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 type AuthProviderProps = {
@@ -50,14 +52,34 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+
+    const token = await userCredential.user.getIdToken();
+
+    await syncUser(token);
+
+    return userCredential;
   };
 
   const signup = async (name: string, email: string, password: string) => {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(result.user, {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+    await updateProfile(userCredential.user, {
       displayName: name,
     });
+
+    const token = await userCredential.user.getIdToken(true);
+
+    await syncUser(token);
+
+    return userCredential;
   };
 
   const logout = async () => {
@@ -71,11 +93,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     signup,
     logout,
   };
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export { AuthContext };

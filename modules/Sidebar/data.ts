@@ -1,11 +1,6 @@
-import { FileText, Star, Tag } from "lucide-react";
+import { Star, Tag, ArchiveRestore, Bot } from "lucide-react";
 
 export const sidebarData = [
-  {
-    title: "All Notes",
-    route: "/notes",
-    icon: FileText,
-  },
   {
     title: "Favourite",
     route: "/favourites",
@@ -15,5 +10,15 @@ export const sidebarData = [
     title: "Tags",
     route: "/tags",
     icon: Tag,
+  },
+  {
+    title: "Archive",
+    route: "/archive",
+    icon: ArchiveRestore,
+  },
+  {
+    title: "AI Workspace",
+    route: "/ai-workspace",
+    icon: Bot,
   },
 ];

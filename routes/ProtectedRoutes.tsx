@@ -1,5 +1,6 @@
 "use client";
 
+import Loader from "@/components/Loader";
 import { useAuth } from "@/context/useAuth";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -20,7 +21,9 @@ const ProtectedRoutes: React.FC<RoutesProps> = ({ children }) => {
   }, [user, loading, router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="flex items-center justify-center h-screen">
+      <Loader size={60}/>
+    </div>;
   }
 
   if (!user) {

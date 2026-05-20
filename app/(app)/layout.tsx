@@ -13,7 +13,7 @@ export default function DashboardLayout({
           <Sidebar />
         </aside>
 
-        <div>{children}</div>
+        <div className="flex-1">{children}</div>
       </div>
     </ProtectedRoutes>
   );
