@@ -21,7 +21,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <button className="flex items-center mt-10 bg-blue-700 text-white rounded-md px-4 py-2 w-full justify-center gap-2 cursor-pointer font-bold mb-4">
+        <button className="flex items-center mt-10 bg-blue-800 text-white rounded-md px-4 py-4 w-full justify-center gap-2 cursor-pointer font-extrabold text-xl mb-4">
           <Plus className="text-white" />
           New Note
         </button>
