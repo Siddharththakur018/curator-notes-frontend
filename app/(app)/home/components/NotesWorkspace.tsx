@@ -1,4 +1,4 @@
-import EditorArea from "./EditorArea";
+import EditorArea from "./editor/EditorArea";
 import NotesListPanel from "./NotesListPanel";
 
 const NotesWorkspace = () => {

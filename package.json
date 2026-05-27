@@ -9,6 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@blocknote/core": "^0.51.2",
+    "@blocknote/mantine": "^0.51.2",
+    "@blocknote/react": "^0.51.2",
+    "@tiptap/extension-image": "^3.23.6",
+    "@tiptap/extension-placeholder": "^3.23.6",
+    "@tiptap/extension-typography": "^3.23.6",
+    "@tiptap/react": "^3.23.6",
+    "@tiptap/starter-kit": "^3.23.6",
     "axios": "^1.16.0",
     "firebase": "^12.12.1",
     "lucide-react": "^1.8.0",

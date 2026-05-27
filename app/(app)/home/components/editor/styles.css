@@ -1,0 +1,14 @@
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #d1d5db;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid #2563eb;
+  padding-left: 1rem;
+  color: #6b7280;
+  font-style: italic;
+}
