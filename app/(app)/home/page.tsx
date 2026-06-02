@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import NotesWorkspace from "./components/NotesWorkspace";
-import EmptyState from "./components/EmptyState";
+import EmptyState from "./components/editor/EmptyState";
 import { getAllNotes } from "@/services/notes.service";
 
 const HomePage = () => {

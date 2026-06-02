@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, setContent, useEditor } from "@tiptap/react";
 
-import { createNote, updateNote } from "@/services/notes.service";
+import { createNote, deleteNote, updateNote } from "@/services/notes.service";
 
 import { editorExtensions } from "./editorExtensions";
 import { getWordCount, formatDate } from "./helpers";
@@ -13,8 +13,14 @@ import { StatusBar } from "./StatusBar";
 import { useAutosave } from "./useAutosave";
 
 import "./styles.css";
+import { Note } from "@/types/notes";
 
-const EditorArea = () => {
+type Props = {
+  setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
+  selectedNote: Note | null;
+};
+
+const EditorArea: React.FC<Props> = ({ setNotes, selectedNote }) => {
   const [title, setTitle] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const [noteId, setNoteId] = useState<string | null>(null);
@@ -44,20 +50,48 @@ const EditorArea = () => {
     if (!editor) return;
 
     try {
-
       const payload = {
         title,
         content: editor.getJSON(),
         previewText: editor.getText().slice(0, 100),
       };
 
+      const text = editor.getText().trim();
+      const isEmpty = !text && !title.trim();
+
+      console.log({
+        title,
+        text,
+        isEmpty,
+        noteId,
+      });
+
       if (!noteId) {
         const response = await createNote(payload);
+        const newNote = response.data.note;
         setNoteId(response.data.note.id);
-      } else {
-        await updateNote(noteId, payload);
-      }
+        setNotes((prev) => [newNote, ...prev]);
+      } else if (isEmpty) {
+        await deleteNote(noteId);
+        console.log("Delete");
 
+        setNotes((prev) =>
+          prev.filter((note) => {
+            return note.id !== noteId;
+          }),
+        );
+
+        setNoteId(null);
+        setTitle("");
+        editor.commands.clearContent();
+      } else {
+        const response = await updateNote(noteId, payload);
+        const updatedNote = response.data.note;
+
+        setNotes((prev) =>
+          prev.map((note) => (note.id === noteId ? updatedNote : note)),
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -66,8 +100,19 @@ const EditorArea = () => {
   const { triggerAutosave, saveStatus } = useAutosave(handleSave);
 
   useEffect(() => {
-    if (title) triggerAutosave();
+    triggerAutosave();
   }, [title, triggerAutosave]);
+
+  useEffect(() => {
+    if (!selectedNote || !editor) return;
+
+    setTitle(selectedNote.title);
+    setNoteId(selectedNote.id);
+
+    editor.commands.setContent(selectedNote.content);
+
+    setWordCount(getWordCount(editor.getText()));
+  }, [selectedNote, editor]);
 
   if (!editor) return null;
 
@@ -109,8 +154,6 @@ const EditorArea = () => {
           <StatusBar
             characters={editor.storage?.characterCount?.characters?.() ?? 0}
           />
-
-          <button onClick={handleSave}>Save</button>
         </div>
       </div>
     </div>

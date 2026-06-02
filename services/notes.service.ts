@@ -4,12 +4,16 @@ type CreateNotePayload = {
   title: string;
   previewText: string;
   content: unknown;
+  isFavorite?: boolean;
+  isArchived?: boolean;
 };
 
 type UpdateNotePayload = {
   title: string;
   previewText: string;
   content: unknown;
+  isFavorite?: boolean;
+  isArchived?: boolean;
 };
 
 export const createNote = async (payload: CreateNotePayload) => {
