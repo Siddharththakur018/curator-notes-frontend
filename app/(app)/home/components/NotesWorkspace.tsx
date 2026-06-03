@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import EditorArea from "./editor/EditorArea";
@@ -6,20 +6,28 @@ import NotesListPanel from "./editor/NotesListPanel";
 import { getAllNotes, getNoteById, updateNote } from "@/services/notes.service";
 import { Note } from "@/types/notes";
 
-
 const NotesWorkspace = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [isCreatingNote, setIsCreatingNote] = useState(false);
+  const [newNoteTrigger, setNewNoteTrigger] = useState(0)
 
-  const handleUpdateNote = async(id: string) => {
+  const handleCreateNote = () => {
+    setSelectedNote(null);
+    setIsCreatingNote(true);
+    setNewNoteTrigger(prev => prev + 1)
+  };
+
+  const handleUpdateNote = async (id: string) => {
     try {
-      const response = await getNoteById(id)
+      const response = await getNoteById(id);
+      setIsCreatingNote(false);
       setSelectedNote(response.data.note);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleToggleFavorite = async (id: string) => {
     const note = notes.find((item) => item.id === id);
@@ -96,7 +104,6 @@ const NotesWorkspace = () => {
   useEffect(() => {
     getAllNotes()
       .then((response) => {
-        console.log(response.data);
         setNotes(response.data.notes ?? []);
       })
       .catch((error) => {
@@ -106,6 +113,9 @@ const NotesWorkspace = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+}, [isCreatingNote]);
   return (
     <div className="flex h-full min-h-0">
       <div className="w-[400px] border-r border-gray-200 bg-[#FAFAFB]">
@@ -115,10 +125,11 @@ const NotesWorkspace = () => {
           onSelectNote={handleUpdateNote}
           onToggleArchive={handleToggleArchive}
           onToggleFavorite={handleToggleFavorite}
+          onCreateNote={handleCreateNote}
         />
       </div>
       <div className="min-w-0 flex-1">
-        <EditorArea setNotes={setNotes} selectedNote={selectedNote}/>
+        <EditorArea setNotes={setNotes} selectedNote={selectedNote} isCreatingNote={isCreatingNote} newNoteTrigger={newNoteTrigger}/>
       </div>
     </div>
   );

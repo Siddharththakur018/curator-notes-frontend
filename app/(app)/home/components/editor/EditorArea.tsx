@@ -18,9 +18,11 @@ import { Note } from "@/types/notes";
 type Props = {
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
   selectedNote: Note | null;
+  isCreatingNote: boolean;
+  newNoteTrigger: number;
 };
 
-const EditorArea: React.FC<Props> = ({ setNotes, selectedNote }) => {
+const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, newNoteTrigger }) => {
   const [title, setTitle] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const [noteId, setNoteId] = useState<string | null>(null);
@@ -59,21 +61,16 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote }) => {
       const text = editor.getText().trim();
       const isEmpty = !text && !title.trim();
 
-      console.log({
-        title,
-        text,
-        isEmpty,
-        noteId,
-      });
-
       if (!noteId) {
+        if (isEmpty) {
+          return;
+        }
         const response = await createNote(payload);
         const newNote = response.data.note;
         setNoteId(response.data.note.id);
         setNotes((prev) => [newNote, ...prev]);
       } else if (isEmpty) {
         await deleteNote(noteId);
-        console.log("Delete");
 
         setNotes((prev) =>
           prev.filter((note) => {
@@ -104,7 +101,15 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote }) => {
   }, [title, triggerAutosave]);
 
   useEffect(() => {
-    if (!selectedNote || !editor) return;
+    if (!editor) return;
+
+    if(!selectedNote){
+      setTitle("")
+      setNoteId(null);
+
+      editor.commands.clearContent();
+      return;
+    }
 
     setTitle(selectedNote.title);
     setNoteId(selectedNote.id);
@@ -112,7 +117,7 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote }) => {
     editor.commands.setContent(selectedNote.content);
 
     setWordCount(getWordCount(editor.getText()));
-  }, [selectedNote, editor]);
+  }, [selectedNote,isCreatingNote, editor, newNoteTrigger]);
 
   if (!editor) return null;
 

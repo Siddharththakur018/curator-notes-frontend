@@ -15,12 +15,13 @@ import { useAuth } from "@/context/useAuth";
 import { Note } from "@/types/notes";
 
 type Props = {
-  notes: Note[],
-  loading: boolean,
+  notes: Note[];
+  loading: boolean;
   onSelectNote: (id: string) => void;
   onToggleArchive: (id: string) => void;
   onToggleFavorite: (id: string) => void;
-}
+  onCreateNote: () => void;
+};
 
 type NoteFilter = "all" | "favorites" | "archived";
 
@@ -36,6 +37,7 @@ const NotesListPanel: React.FC<Props> = ({
   onSelectNote,
   onToggleArchive,
   onToggleFavorite,
+  onCreateNote
 }) => {
   const router = useRouter();
   const { logout } = useAuth();
@@ -99,8 +101,11 @@ const NotesListPanel: React.FC<Props> = ({
             </p>
             <h1 className="mt-1 text-2xl font-bold text-gray-950">Notes</h1>
           </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-blue-100 bg-blue-50">
-            <BookOpenText className="h-5 w-5 text-blue-700" />
+          <div className="flex items-center gap-4">
+            <button onClick={onCreateNote} className="cursor-pointer">New Note</button>
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-blue-100 bg-blue-50">
+              <BookOpenText className="h-5 w-5 text-blue-700" />
+            </div>
           </div>
         </div>
 
@@ -159,79 +164,83 @@ const NotesListPanel: React.FC<Props> = ({
           {filteredNotes.length > 0 ? (
             <div className="space-y-2">
               {filteredNotes.map((note) => {
-              return (
-                <article
-                  key={note.id}
-                  onClick={() => onSelectNote(note.id)}
-                  className="group cursor-pointer rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-colors hover:border-blue-200 hover:bg-blue-50/40"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover:bg-blue-100 group-hover:text-blue-700">
-                      <FileText className="h-4 w-4" />
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <div className="flex min-w-0 items-start gap-2">
-                        <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-gray-950">
-                          {note.title || "Untitled"}
-                        </h2>
-                        <div className="flex shrink-0 items-center gap-1">
-                          <button
-                            type="button"
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              onToggleFavorite(note.id);
-                            }}
-                            aria-label={
-                              note.isFavorite
-                                ? "Remove from favorites"
-                                : "Add to favorites"
-                            }
-                            title={
-                              note.isFavorite
-                                ? "Remove from favorites"
-                                : "Add to favorites"
-                            }
-                            className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
-                              note.isFavorite
-                                ? "bg-amber-50 text-amber-500"
-                                : "text-gray-400 hover:bg-white hover:text-amber-500"
-                            }`}
-                          >
-                            <Star
-                              className="h-4 w-4"
-                              fill={note.isFavorite ? "currentColor" : "none"}
-                            />
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              onToggleArchive(note.id);
-                            }}
-                            aria-label={
-                              note.isArchived ? "Restore note" : "Archive note"
-                            }
-                            title={
-                              note.isArchived ? "Restore note" : "Archive note"
-                            }
-                            className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
-                              note.isArchived
-                                ? "bg-blue-50 text-blue-700"
-                                : "text-gray-400 hover:bg-white hover:text-blue-700"
-                            }`}
-                          >
-                            <ArchiveRestore className="h-4 w-4" />
-                          </button>
-                        </div>
+                return (
+                  <article
+                    key={note.id}
+                    onClick={() => onSelectNote(note.id)}
+                    className="group cursor-pointer rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-colors hover:border-blue-200 hover:bg-blue-50/40"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover:bg-blue-100 group-hover:text-blue-700">
+                        <FileText className="h-4 w-4" />
                       </div>
-                      <p className="mt-1 line-clamp-2 text-sm leading-5 text-gray-500">
-                        {note.previewText}
-                      </p>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex min-w-0 items-start gap-2">
+                          <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-gray-950">
+                            {note.title || "Untitled"}
+                          </h2>
+                          <div className="flex shrink-0 items-center gap-1">
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                onToggleFavorite(note.id);
+                              }}
+                              aria-label={
+                                note.isFavorite
+                                  ? "Remove from favorites"
+                                  : "Add to favorites"
+                              }
+                              title={
+                                note.isFavorite
+                                  ? "Remove from favorites"
+                                  : "Add to favorites"
+                              }
+                              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+                                note.isFavorite
+                                  ? "bg-amber-50 text-amber-500"
+                                  : "text-gray-400 hover:bg-white hover:text-amber-500"
+                              }`}
+                            >
+                              <Star
+                                className="h-4 w-4"
+                                fill={note.isFavorite ? "currentColor" : "none"}
+                              />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                onToggleArchive(note.id);
+                              }}
+                              aria-label={
+                                note.isArchived
+                                  ? "Restore note"
+                                  : "Archive note"
+                              }
+                              title={
+                                note.isArchived
+                                  ? "Restore note"
+                                  : "Archive note"
+                              }
+                              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
+                                note.isArchived
+                                  ? "bg-blue-50 text-blue-700"
+                                  : "text-gray-400 hover:bg-white hover:text-blue-700"
+                              }`}
+                            >
+                              <ArchiveRestore className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </div>
+                        <p className="mt-1 line-clamp-2 text-sm leading-5 text-gray-500">
+                          {note.previewText}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </article>
-              );
+                  </article>
+                );
               })}
             </div>
           ) : (
