@@ -13,6 +13,7 @@ import {
   isValidEmail,
   isValidPassword,
 } from "@/utils/validation";
+import { showErrorToast } from "@/utils/toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -37,7 +38,10 @@ const Login = () => {
       console.log("Login success");
     } catch (error) {
       console.error(error);
-      setPasswordError("Invalid credentials");
+      const message = showErrorToast(error, {
+        fallback: "Invalid credentials.",
+      });
+      setPasswordError(message);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { EditorContent, setContent, useEditor } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 
 import { createNote, deleteNote, updateNote } from "@/services/notes.service";
 
@@ -14,6 +14,7 @@ import { useAutosave } from "./useAutosave";
 
 import "./styles.css";
 import { Note } from "@/types/notes";
+import { showErrorToast } from "@/utils/toast";
 
 type Props = {
   setNotes: React.Dispatch<React.SetStateAction<Note[]>>;
@@ -92,8 +93,9 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, n
       }
     } catch (error) {
       console.error(error);
+      showErrorToast(error, { fallback: "Could not save this note." });
     }
-  }, [editor, noteId, title]);
+  }, [editor, noteId, setNotes, title]);
 
   const { triggerAutosave, saveStatus } = useAutosave(handleSave);
 

@@ -5,6 +5,7 @@ import EditorArea from "./editor/EditorArea";
 import NotesListPanel from "./editor/NotesListPanel";
 import { getAllNotes, getNoteById, updateNote } from "@/services/notes.service";
 import { Note } from "@/types/notes";
+import { showErrorToast } from "@/utils/toast";
 
 const NotesWorkspace = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -28,6 +29,7 @@ const NotesWorkspace = () => {
       setSelectedNote(response.data.note);
     } catch (error) {
       console.error(error);
+      showErrorToast(error, { fallback: "Could not open this note." });
     }
   };
 
@@ -63,6 +65,7 @@ const NotesWorkspace = () => {
       if (selectedNote?.id === id) setSelectedNote(updatedNote);
     } catch (error) {
       console.error(error);
+      showErrorToast(error, { fallback: "Could not update favorite status." });
       setNotes((prev) => prev.map((item) => (item.id === id ? note : item)));
       if (selectedNote?.id === id) setSelectedNote(note);
     }
@@ -100,6 +103,7 @@ const NotesWorkspace = () => {
       if (selectedNote?.id === id) setSelectedNote(updatedNote);
     } catch (error) {
       console.error(error);
+      showErrorToast(error, { fallback: "Could not update archive status." });
       setNotes((prev) => prev.map((item) => (item.id === id ? note : item)));
       if (selectedNote?.id === id) setSelectedNote(note);
     }
@@ -123,6 +127,7 @@ const NotesWorkspace = () => {
       })
       .catch((error) => {
         console.error(error);
+        showErrorToast(error, { fallback: "Could not load your notes." });
       })
       .finally(() => {
         setLoading(false);

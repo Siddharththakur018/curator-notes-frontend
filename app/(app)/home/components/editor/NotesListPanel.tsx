@@ -4,7 +4,6 @@ import {
   BookOpenText,
   FileText,
   LogOut,
-  Search,
   Settings,
   Sparkles,
   Star,
@@ -14,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/useAuth";
 import { Note } from "@/types/notes";
 import Searchbar from "./Searchbar";
+import { showErrorToast } from "@/utils/toast";
 
 type Props = {
   notes: Note[];
@@ -56,6 +56,7 @@ const NotesListPanel: React.FC<Props> = ({
       router.replace("/login");
     } catch (error) {
       console.error(error);
+      showErrorToast(error, { fallback: "Could not log you out." });
       setIsLoggingOut(false);
     }
   };

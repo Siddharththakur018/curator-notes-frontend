@@ -12,6 +12,7 @@ import {
   isValidPassword,
 } from "@/utils/validation";
 import Loader from "@/components/Loader";
+import { showErrorToast } from "@/utils/toast";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -39,7 +40,10 @@ const SignUp = () => {
       console.log("Signup success");
     } catch (error) {
       console.error(error);
-      setPasswordError("Invalid credentials");
+      const message = showErrorToast(error, {
+        fallback: "Could not create your account.",
+      });
+      setPasswordError(message);
     } finally {
       setLoading(false);
     }

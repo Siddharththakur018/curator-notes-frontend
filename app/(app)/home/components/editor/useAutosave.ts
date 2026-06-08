@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { showErrorToast } from "@/utils/toast";
 
 export const useAutosave = (onSave: () => Promise<void>) => {
   // used ref because of
@@ -21,6 +22,7 @@ export const useAutosave = (onSave: () => Promise<void>) => {
         setSaveStatus("saved");
       } catch (error) {
         console.error(error);
+        showErrorToast(error, { fallback: "Autosave failed." });
       }
     }, 1500);
   }, [onSave]);
