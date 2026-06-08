@@ -11,12 +11,14 @@ const NotesWorkspace = () => {
   const [loading, setLoading] = useState(true);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [isCreatingNote, setIsCreatingNote] = useState(false);
-  const [newNoteTrigger, setNewNoteTrigger] = useState(0)
+  const [newNoteTrigger, setNewNoteTrigger] = useState(0);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const handleCreateNote = () => {
     setSelectedNote(null);
     setIsCreatingNote(true);
-    setNewNoteTrigger(prev => prev + 1)
+    setNewNoteTrigger((prev) => prev + 1);
   };
 
   const handleUpdateNote = async (id: string) => {
@@ -46,6 +48,7 @@ const NotesWorkspace = () => {
         title: nextNote.title,
         content: nextNote.content,
         previewText: nextNote.previewText,
+        searchText: nextNote.content,
         isFavorite: nextNote.isFavorite,
         isArchived: nextNote.isArchived,
       });
@@ -84,6 +87,7 @@ const NotesWorkspace = () => {
         previewText: nextNote.previewText,
         isFavorite: nextNote.isFavorite,
         isArchived: nextNote.isArchived,
+        searchText: nextNote.content,
       });
       const updatedNote = {
         ...nextNote,
@@ -102,7 +106,18 @@ const NotesWorkspace = () => {
   };
 
   useEffect(() => {
-    getAllNotes()
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [search]);
+
+  useEffect(() => {
+    setLoading(true)
+    getAllNotes(debouncedSearch)
       .then((response) => {
         setNotes(response.data.notes ?? []);
       })
@@ -112,10 +127,9 @@ const NotesWorkspace = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [debouncedSearch]);
 
-  useEffect(() => {
-}, [isCreatingNote]);
+  useEffect(() => {}, [isCreatingNote]);
   return (
     <div className="flex h-full min-h-0">
       <div className="w-[400px] border-r border-gray-200 bg-[#FAFAFB]">
@@ -126,10 +140,17 @@ const NotesWorkspace = () => {
           onToggleArchive={handleToggleArchive}
           onToggleFavorite={handleToggleFavorite}
           onCreateNote={handleCreateNote}
+          search={search}
+          setSearch={setSearch}
         />
       </div>
       <div className="min-w-0 flex-1">
-        <EditorArea setNotes={setNotes} selectedNote={selectedNote} isCreatingNote={isCreatingNote} newNoteTrigger={newNoteTrigger}/>
+        <EditorArea
+          setNotes={setNotes}
+          selectedNote={selectedNote}
+          isCreatingNote={isCreatingNote}
+          newNoteTrigger={newNoteTrigger}
+        />
       </div>
     </div>
   );

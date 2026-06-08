@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/useAuth";
 import { Note } from "@/types/notes";
+import Searchbar from "./Searchbar";
 
 type Props = {
   notes: Note[];
@@ -21,6 +22,8 @@ type Props = {
   onToggleArchive: (id: string) => void;
   onToggleFavorite: (id: string) => void;
   onCreateNote: () => void;
+  search: string;
+  setSearch: (value: string) => void;
 };
 
 type NoteFilter = "all" | "favorites" | "archived";
@@ -37,13 +40,14 @@ const NotesListPanel: React.FC<Props> = ({
   onSelectNote,
   onToggleArchive,
   onToggleFavorite,
-  onCreateNote
+  onCreateNote,
+  search,
+  setSearch,
 }) => {
   const router = useRouter();
   const { logout } = useAuth();
   const [activeFilter, setActiveFilter] = useState<NoteFilter>("all");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = async () => {
     try {
@@ -57,23 +61,14 @@ const NotesListPanel: React.FC<Props> = ({
   };
 
   const filteredNotes = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase();
-
     return notes.filter((note) => {
-      const matchesFilter =
-        activeFilter === "favorites"
-          ? note.isFavorite
-          : activeFilter === "archived"
-            ? note.isArchived
-            : !note.isArchived;
-      const matchesSearch =
-        !normalizedQuery ||
-        note.title.toLowerCase().includes(normalizedQuery) ||
-        note.previewText.toLowerCase().includes(normalizedQuery);
-
-      return matchesFilter && matchesSearch;
+      return activeFilter === "favorites"
+        ? note.isFavorite
+        : activeFilter === "archived"
+          ? note.isArchived
+          : !note.isArchived;
     });
-  }, [activeFilter, notes, searchQuery]);
+  }, [activeFilter, notes]);
 
   const visibleCount = filteredNotes.length;
 
@@ -102,23 +97,16 @@ const NotesListPanel: React.FC<Props> = ({
             <h1 className="mt-1 text-2xl font-bold text-gray-950">Notes</h1>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={onCreateNote} className="cursor-pointer">New Note</button>
+            <button onClick={onCreateNote} className="cursor-pointer">
+              New Note
+            </button>
             <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-blue-100 bg-blue-50">
               <BookOpenText className="h-5 w-5 text-blue-700" />
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2.5 shadow-sm transition-colors focus-within:border-blue-300 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-100">
-          <Search className="h-4 w-4 shrink-0 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search notes"
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-            className="w-full bg-transparent text-sm text-gray-900 outline-none placeholder:text-gray-400"
-          />
-        </div>
+        <Searchbar search={search} setSearch={setSearch}/>
 
         <div className="mt-4 grid grid-cols-3 gap-1 rounded-lg bg-gray-100 p-1">
           {filterOptions.map((option) => {

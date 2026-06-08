@@ -56,6 +56,7 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, n
         title,
         content: editor.getJSON(),
         previewText: editor.getText().slice(0, 100),
+        searchText: editor.getText(),
       };
 
       const text = editor.getText().trim();

@@ -6,6 +6,7 @@ type CreateNotePayload = {
   content: unknown;
   isFavorite?: boolean;
   isArchived?: boolean;
+  searchText: string;
 };
 
 type UpdateNotePayload = {
@@ -14,6 +15,7 @@ type UpdateNotePayload = {
   content: unknown;
   isFavorite?: boolean;
   isArchived?: boolean;
+  searchText: string;
 };
 
 export const createNote = async (payload: CreateNotePayload) => {
@@ -22,8 +24,12 @@ export const createNote = async (payload: CreateNotePayload) => {
   return response;
 };
 
-export const getAllNotes = async () => {
-  const response = await axiosClient.get("/notes");
+export const getAllNotes = async (search?: string) => {
+  const response = await axiosClient.get("/notes", {
+    params: {
+      search,
+    },
+  });
 
   return response;
 };

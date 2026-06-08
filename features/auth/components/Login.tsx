@@ -33,7 +33,7 @@ const Login = () => {
     try {
       setLoading(true);
       await login(email, password);
-      router.push("/home");
+      router.push("/notes");
       console.log("Login success");
     } catch (error) {
       console.error(error);

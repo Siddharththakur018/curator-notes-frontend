@@ -27,12 +27,6 @@ export const TopBar = ({ saveStatus }: Props) => {
         >
           <Icons.Share /> Share
         </button>
-        <button
-          type="button"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-medium hover:bg-blue-700 transition-colors shadow-sm"
-        >
-          <Icons.Sparkles /> AI Assist
-        </button>
       </div>
     </div>
   );
