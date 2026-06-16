@@ -50,107 +50,110 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
-      <div className="hidden lg:flex w-1/2 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700" />
-
-        <div className="absolute top-[-120px] left-[-100px] w-[350px] h-[350px] bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-[-120px] right-[-100px] w-[300px] h-[300px] bg-cyan-300/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col justify-center px-16 py-20 text-white">
-          <div className="flex items-center gap-3 mb-14">
-            <div className="bg-white/10 backdrop-blur-xl p-3 rounded-2xl border border-white/20 shadow-lg">
-              <Sparkles size={30} className="text-white" />
+    <div className="flex min-h-screen bg-[#1F1F1E] text-white">
+      <div className="hidden w-1/2 border-r border-white/10 bg-[#252523] lg:flex">
+        <div className="flex w-full flex-col justify-between px-16 py-14">
+          <Link href="/" className="flex w-fit items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785]">
+              <Sparkles size={24} />
             </div>
 
-            <h1 className="font-bold text-3xl tracking-tight">Curator</h1>
-          </div>
+            <span className="text-2xl font-bold tracking-tight">Curator</span>
+          </Link>
 
-          <h1 className="text-6xl leading-tight font-extrabold max-w-2xl">
-            The Architecture
-            <br />
-            of{" "}
-            <span className="bg-gradient-to-r from-cyan-200 to-blue-300 bg-clip-text text-transparent italic">
-              Thought.
-            </span>
-          </h1>
-
-          <p className="text-lg text-blue-100 mt-8 leading-8 max-w-xl">
-            Intellectual airiness for your digital world. Capture ideas,
-            preserve insights, and build your personal knowledge sanctuary.
-          </p>
-
-          <div className="flex gap-6 mt-14">
-            <div className="bg-white/10 border border-white/10 rounded-3xl px-6 py-5 backdrop-blur-xl shadow-xl">
-              <h3 className="text-2xl font-bold">Secure</h3>
-              <p className="text-sm text-blue-100 mt-1">
-                Private knowledge system
-              </p>
+          <div>
+            <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-[#D9D6EA]">
+              <Sparkles size={16} />
+              Start knowing
             </div>
 
-            <div className="bg-white/10 border border-white/10 rounded-3xl px-6 py-5 backdrop-blur-xl shadow-xl">
-              <h3 className="text-2xl font-bold">Minimal</h3>
-              <p className="text-sm text-blue-100 mt-1">
-                Focused writing experience
-              </p>
+            <h1 className="max-w-xl text-5xl font-black leading-tight">
+              Build a knowledge system that follows through.
+            </h1>
+
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[#C6C4BD]">
+              Create your workspace, capture anything worth keeping, and let
+              Curator turn scattered saves into useful daily context.
+            </p>
+
+            <div className="mt-12 grid grid-cols-2 gap-4">
+              <div className="rounded-lg border border-white/10 bg-[#2A2A28] p-5">
+                <p className="text-3xl font-black text-[#D9D6EA]">Free</p>
+                <p className="mt-2 text-sm font-semibold text-[#B8B6AF]">
+                  no card needed
+                </p>
+              </div>
+
+              <div className="rounded-lg border border-white/10 bg-[#2A2A28] p-5">
+                <p className="text-3xl font-black text-[#D9D6EA]">Daily</p>
+                <p className="mt-2 text-sm font-semibold text-[#B8B6AF]">
+                  smart digests
+                </p>
+              </div>
             </div>
           </div>
 
-          <p className="text-sm text-blue-100/70 mt-20 tracking-[0.2em]">
-            ESTABLISHED 2026 © CURATOR SYSTEM
+          <p className="text-sm font-semibold uppercase tracking-wider text-[#8B8A84]">
+            Capture less clutter, keep more clarity
           </p>
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-10 relative">
-        <div className="absolute top-20 right-20 w-72 h-72 bg-blue-300/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-10 left-10 w-72 h-72 bg-cyan-200/20 rounded-full blur-3xl" />
-
-        <div className="w-full max-w-md relative z-10">
-          <div className="bg-white/60 backdrop-blur-2xl border border-white/40 shadow-2xl shadow-slate-300/40 rounded-[32px] p-8">
+      <div className="flex w-full items-center justify-center px-5 py-10 lg:w-1/2">
+        <div className="w-full max-w-md">
+          <div className="rounded-lg border border-white/10 bg-[#282826] p-8 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
             <div className="mb-8">
-              <h1 className="text-4xl font-bold text-slate-900">
+              <Link href="/" className="mb-8 flex w-fit items-center gap-3 lg:hidden">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785]">
+                  <Sparkles size={22} />
+                </div>
+                <span className="text-2xl font-bold">Curator</span>
+              </Link>
+
+              <h1 className="text-4xl font-bold text-white">
                 Create account
               </h1>
 
-              <p className="text-slate-500 mt-2">
-                Begin your journey towards organized clarity.
+              <p className="mt-2 text-[#B8B6AF]">
+                Start with a free workspace for your saved knowledge.
               </p>
             </div>
 
             <div className="flex flex-col">
-              <label className="font-semibold text-sm text-slate-700 mb-2">
+              <label className="mb-2 text-sm font-bold text-[#D9D6EA]">
                 FULL NAME
               </label>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/40 bg-white/50 backdrop-blur-lg px-4 py-3 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-200/50">
-                <User size={20} className="text-slate-400" />
+              <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-[#1F1F1E] px-4 py-3 transition-all duration-200 focus-within:border-[#D9D6EA]/70 focus-within:ring-4 focus-within:ring-[#D9D6EA]/10">
+                <User size={20} className="text-[#8B8A84]" />
 
                 <input
                   type="text"
                   placeholder="Julian Brias"
-                  className="w-full bg-transparent outline-none text-slate-800 placeholder:text-slate-400"
+                  className="w-full bg-transparent text-white outline-none placeholder:text-[#6A6964]"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
             </div>
             {nameError && (
-              <p className="text-red-500 text-sm mt-2">{nameError}</p>
+              <p className="mt-2 text-sm font-semibold text-red-400">
+                {nameError}
+              </p>
             )}
 
             <div className="flex flex-col mt-6">
-              <label className="font-semibold text-sm text-slate-700 mb-2">
+              <label className="mb-2 text-sm font-bold text-[#D9D6EA]">
                 EMAIL
               </label>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/40 bg-white/50 backdrop-blur-lg px-4 py-3 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-200/50">
-                <Mail size={20} className="text-slate-400" />
+              <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-[#1F1F1E] px-4 py-3 transition-all duration-200 focus-within:border-[#D9D6EA]/70 focus-within:ring-4 focus-within:ring-[#D9D6EA]/10">
+                <Mail size={20} className="text-[#8B8A84]" />
 
                 <input
                   type="email"
                   placeholder="name@domain.com"
-                  className="w-full bg-transparent outline-none text-slate-800 placeholder:text-slate-400"
+                  className="w-full bg-transparent text-white outline-none placeholder:text-[#6A6964]"
                   value={email}
                   onChange={(e) => {
                     const value = e.target.value;
@@ -163,21 +166,23 @@ const SignUp = () => {
             </div>
 
             {emailError && (
-              <p className="text-red-500 text-sm mt-2">{emailError}</p>
+              <p className="mt-2 text-sm font-semibold text-red-400">
+                {emailError}
+              </p>
             )}
 
             <div className="flex flex-col mt-6">
-              <label className="font-semibold text-sm text-slate-700 mb-2">
+              <label className="mb-2 text-sm font-bold text-[#D9D6EA]">
                 PASSWORD
               </label>
 
-              <div className="flex items-center gap-3 rounded-2xl border border-white/40 bg-white/50 backdrop-blur-lg px-4 py-3 transition-all duration-200 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-200/50">
-                <Lock size={20} className="text-slate-400" />
+              <div className="flex items-center gap-3 rounded-lg border border-white/10 bg-[#1F1F1E] px-4 py-3 transition-all duration-200 focus-within:border-[#D9D6EA]/70 focus-within:ring-4 focus-within:ring-[#D9D6EA]/10">
+                <Lock size={20} className="text-[#8B8A84]" />
 
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className="w-full bg-transparent outline-none text-slate-800 placeholder:text-slate-400"
+                  className="w-full bg-transparent text-white outline-none placeholder:text-[#6A6964]"
                   value={password}
                   onChange={(e) => {
                     const value = e.target.value;
@@ -190,22 +195,24 @@ const SignUp = () => {
                 <Eye
                   onClick={() => setShowPassword(!showPassword)}
                   size={20}
-                  className="text-slate-400 cursor-pointer hover:text-slate-600"
+                  className="cursor-pointer text-[#8B8A84] hover:text-white"
                 />
               </div>
             </div>
             {passwordError && (
-              <p className="text-red-500 text-sm mt-2">{passwordError}</p>
+              <p className="mt-2 text-sm font-semibold text-red-400">
+                {passwordError}
+              </p>
             )}
 
             <button
               onClick={handleSignup}
               disabled={!isFormValid || loading}
-              className={`w-full mt-8 text-white font-semibold rounded-2xl py-3.5 shadow-xl transition-all duration-300
+              className={`mt-8 w-full rounded-lg py-3.5 font-bold transition-all duration-300
   ${
     !isFormValid || loading
-      ? "bg-slate-400 cursor-not-allowed"
-      : "bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-800 hover:to-blue-700 cursor-pointer shadow-blue-700/30"
+      ? "cursor-not-allowed bg-[#3A3A36] text-[#8B8A84]"
+      : "cursor-pointer bg-[#D9D6EA] text-[#373785] shadow-lg shadow-black/20 hover:bg-[#C9C5E8]"
   }`}
             >
               {loading ? (
@@ -220,19 +227,19 @@ const SignUp = () => {
             <div className="flex items-start gap-3 mt-6">
               <input
                 type="checkbox"
-                className="mt-1 h-4 w-4 rounded border-slate-300 cursor-pointer"
+                className="mt-1 h-4 w-4 cursor-pointer rounded border-white/10 accent-[#D9D6EA]"
               />
 
-              <p className="text-sm text-slate-500 leading-6">
+              <p className="text-sm leading-6 text-[#B8B6AF]">
                 I agree to the Terms of Service and Privacy Policy.
               </p>
             </div>
 
-            <p className="text-center text-slate-500 mt-8">
+            <p className="mt-8 text-center text-[#B8B6AF]">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-blue-700 hover:text-blue-800 font-semibold"
+                className="font-bold text-[#D9D6EA] hover:text-white"
               >
                 Login
               </Link>

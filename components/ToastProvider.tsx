@@ -39,12 +39,10 @@ export const ToastProvider = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme="light"
+      theme="dark"
       className="curator-toast-container"
       icon={<CircleAlert className="h-4 w-4" />}
-      toastClassName={() =>
-        "curator-toast border border-slate-200 bg-white text-slate-900 shadow-xl shadow-slate-900/10"
-      }
+      toastClassName={() => "curator-toast"}
       progressClassName="curator-toast-progress"
     />
   );
