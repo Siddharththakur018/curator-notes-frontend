@@ -27,8 +27,8 @@ export const ToolbarButton = ({
         border-none outline-none
         ${
           active
-            ? "bg-blue-50 text-blue-600"
-            : "text-neutral-500 hover:bg-neutral-100 hover:text-neutral-800"
+            ? "bg-[#D9D6EA] text-[#373785]"
+            : "text-[#8B8A84] hover:bg-white/5 hover:text-white"
         }
       `}
     >

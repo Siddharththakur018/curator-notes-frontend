@@ -23,7 +23,12 @@ type Props = {
   newNoteTrigger: number;
 };
 
-const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, newNoteTrigger }) => {
+const EditorArea: React.FC<Props> = ({
+  setNotes,
+  selectedNote,
+  isCreatingNote,
+  newNoteTrigger,
+}) => {
   const [title, setTitle] = useState("");
   const [wordCount, setWordCount] = useState(0);
   const [noteId, setNoteId] = useState<string | null>(null);
@@ -39,7 +44,7 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, n
     editorProps: {
       attributes: {
         class:
-          "ProseMirror focus:outline-none min-h-[400px] text-[15px] leading-[1.85] text-neutral-800",
+          "ProseMirror focus:outline-none min-h-[400px] text-[15px] leading-[1.85] text-[#E7E5DF]",
       },
     },
 
@@ -106,33 +111,37 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, n
   useEffect(() => {
     if (!editor) return;
 
-    if(!selectedNote){
-      setTitle("")
-      setNoteId(null);
+    const syncSelectedNote = () => {
+      if (!selectedNote) {
+        setTitle("");
+        setNoteId(null);
 
-      editor.commands.clearContent();
-      return;
-    }
+        editor.commands.clearContent();
+        return;
+      }
 
-    setTitle(selectedNote.title);
-    setNoteId(selectedNote.id);
+      setTitle(selectedNote.title);
+      setNoteId(selectedNote.id);
 
-    editor.commands.setContent(selectedNote.content);
+      editor.commands.setContent(selectedNote.content);
 
-    setWordCount(getWordCount(editor.getText()));
-  }, [selectedNote,isCreatingNote, editor, newNoteTrigger]);
+      setWordCount(getWordCount(editor.getText()));
+    };
+
+    syncSelectedNote();
+  }, [selectedNote, isCreatingNote, editor, newNoteTrigger]);
 
   if (!editor) return null;
 
   return (
-    <div className="w-full h-full bg-[#FAFAFB] overflow-y-auto">
-      <div className="max-w-4xl mx-auto px-6 py-6">
-        <div className="bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden flex flex-col">
+    <div className="h-full w-full overflow-y-auto bg-[#1F1F1E]">
+      <div className="mx-auto max-w-4xl px-6 py-6">
+        <div className="flex flex-col overflow-hidden rounded-lg border border-white/10 bg-[#282826] shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
           <TopBar saveStatus={saveStatus} />
 
           <Toolbar editor={editor} />
 
-          <div className="px-10 py-8 flex-1">
+          <div className="flex-1 px-10 py-8">
             <input
               type="text"
               placeholder="Untitled"
@@ -141,15 +150,15 @@ const EditorArea: React.FC<Props> = ({ setNotes, selectedNote, isCreatingNote, n
               className="
                 w-full bg-transparent border-none outline-none
                 text-[32px] font-semibold tracking-tight
-                text-neutral-900 placeholder:text-neutral-300
+                text-white placeholder:text-[#6A6964]
                 leading-tight mb-3
               "
             />
 
-            <div className="flex items-center gap-3 text-xs text-neutral-400 mb-6 pb-5 border-b border-neutral-100">
+            <div className="mb-6 flex items-center gap-3 border-b border-white/10 pb-5 text-xs text-[#8B8A84]">
               <span>{formatDate()}</span>
 
-              <span className="w-1 h-1 rounded-full bg-neutral-300 inline-block" />
+              <span className="inline-block h-1 w-1 rounded-full bg-[#6A6964]" />
 
               <span>
                 {wordCount} {wordCount === 1 ? "word" : "words"}

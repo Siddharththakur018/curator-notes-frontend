@@ -13,8 +13,8 @@ export const TopBar = ({ saveStatus }: Props) => {
         : "Unsaved changes";
 
   return (
-    <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-100 bg-neutral-50/60">
-      <div className="flex items-center gap-2 text-xs text-neutral-400">
+    <div className="flex items-center justify-between border-b border-white/10 bg-[#252523] px-4 py-2.5">
+      <div className="flex items-center gap-2 text-xs text-[#8B8A84]">
         <Icons.Save />
 
         <span>{saveLabel}</span>
@@ -23,7 +23,7 @@ export const TopBar = ({ saveStatus }: Props) => {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-xs font-medium text-neutral-600 hover:bg-neutral-50 transition-colors"
+          className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-[#C6C4BD] transition-colors hover:border-[#D9D6EA]/45 hover:text-white"
         >
           <Icons.Share /> Share
         </button>

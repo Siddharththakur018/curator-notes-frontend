@@ -38,17 +38,17 @@ type EmptyStateProps = {
 const EmptyState = ({ onCreateNote }: EmptyStateProps) => {
   return (
     <>
-      <div className="flex justify-between items-center px-6 py-4 border-b border-[#E2E2E3]">
-        <div className="text-4xl font-bold text-blue-800">
+      <div className="flex items-center justify-between border-b border-white/10 bg-[#252523] px-6 py-4">
+        <div className="text-4xl font-bold text-white">
           Editor Workspace
         </div>
       </div>
-      <div className="mx-auto flex min-h-full max-w-7xl flex-col items-center px-8 py-10">
+      <div className="mx-auto flex min-h-full max-w-7xl flex-col items-center bg-[#1F1F1E] px-8 py-10 text-white">
         <div className="max-w-lg text-center">
           <h1 className="text-4xl font-extrabold mb-4">
             Your thinking starts here.
           </h1>
-          <p className="text-lg">
+          <p className="text-lg leading-8 text-[#C6C4BD]">
             Capture ideas, organize knowledge, and build your personal
             intellectual workspace. Experience the clarity of a quiet interface
             designed for deep work.
@@ -56,11 +56,11 @@ const EmptyState = ({ onCreateNote }: EmptyStateProps) => {
           <div className="w-full flex justify-around mt-10">
             <button
               onClick={onCreateNote}
-              className="bg-blue-800 text-white font-bold px-8 py-4 rounded-md cursor-pointer flex items-center gap-4 text-lg"
+              className="flex cursor-pointer items-center gap-4 rounded-lg bg-[#D9D6EA] px-8 py-4 text-lg font-bold text-[#373785] transition hover:bg-[#C9C5E8]"
             >
               <NotebookPen /> Create First Note
             </button>
-            <button className="font-bold px-8 py-2 border flex items-center gap-4 rounded-md cursor-pointer text-lg">
+            <button className="flex cursor-pointer items-center gap-4 rounded-lg border border-white/10 px-8 py-2 text-lg font-bold text-white transition hover:border-[#D9D6EA]/45 hover:bg-white/5">
               <Sparkles />
               Generate with AI
             </button>
@@ -74,17 +74,17 @@ const EmptyState = ({ onCreateNote }: EmptyStateProps) => {
             return (
               <div
                 key={index}
-                className="border border-gray-200 rounded-2xl p-6 bg-white shadow-sm"
+                className="rounded-lg border border-white/10 bg-[#282826] p-6 shadow-[0_18px_50px_rgba(0,0,0,0.22)]"
               >
-                <div className="bg-blue-100 w-fit p-4 rounded-2xl mb-5">
-                  <Icon className="w-6 h-6 text-blue-700" />
+                <div className="mb-5 w-fit rounded-lg bg-[#D9D6EA] p-4">
+                  <Icon className="h-6 w-6 text-[#373785]" />
                 </div>
 
-                <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                <h2 className="mb-3 text-2xl font-bold text-white">
                   {item.title}
                 </h2>
 
-                <p className="text-gray-600 text-lg leading-relaxed">
+                <p className="text-lg leading-relaxed text-[#B8B6AF]">
                   {item.description}
                 </p>
               </div>

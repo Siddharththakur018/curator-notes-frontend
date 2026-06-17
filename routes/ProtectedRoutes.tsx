@@ -21,9 +21,11 @@ const ProtectedRoutes: React.FC<RoutesProps> = ({ children }) => {
   }, [user, loading, router]);
 
   if (loading) {
-    return <div className="flex items-center justify-center h-screen">
-      <Loader size={60}/>
-    </div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#1F1F1E]">
+        <Loader size={60} />
+      </div>
+    );
   }
 
   if (!user) {

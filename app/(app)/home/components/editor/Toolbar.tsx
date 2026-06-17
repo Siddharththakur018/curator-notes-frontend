@@ -32,7 +32,7 @@ type AiSuggestion = {
   result: string;
 };
 
-const Sep = () => <div className="w-px h-5 bg-neutral-200 mx-1 shrink-0" />;
+const Sep = () => <div className="mx-1 h-5 w-px shrink-0 bg-white/10" />;
 
 export const Toolbar = ({ editor }: Props) => {
   const [loading, setLoading] = useState(false);
@@ -180,7 +180,7 @@ export const Toolbar = ({ editor }: Props) => {
   };
 
   return (
-    <div className="border-b border-neutral-100 bg-white">
+    <div className="border-b border-white/10 bg-[#252523]">
       <div
         className="flex items-center flex-wrap gap-0.5 px-3 py-1.5"
         role="toolbar"
@@ -216,7 +216,7 @@ export const Toolbar = ({ editor }: Props) => {
             type="button"
             disabled={loading}
             onClick={() => setIsOpen((current) => !current)}
-            className="flex h-9 items-center gap-2 rounded-lg border border-blue-200 bg-blue-700 px-3 text-sm font-semibold text-white shadow-sm shadow-blue-900/10 transition-all hover:bg-blue-800 hover:shadow-md hover:shadow-blue-900/15 disabled:cursor-not-allowed disabled:opacity-70"
+            className="flex h-9 items-center gap-2 rounded-lg border border-[#D9D6EA]/30 bg-[#D9D6EA] px-3 text-sm font-bold text-[#373785] shadow-sm shadow-black/20 transition-all hover:bg-[#C9C5E8] disabled:cursor-not-allowed disabled:opacity-70"
             aria-expanded={isOpen}
             aria-haspopup="menu"
           >
@@ -235,14 +235,14 @@ export const Toolbar = ({ editor }: Props) => {
 
           {isOpen && !loading && (
             <div
-              className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10"
+              className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-lg border border-white/10 bg-[#282826] shadow-2xl shadow-black/35"
               role="menu"
             >
-              <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
-                <p className="text-xs font-semibold uppercase text-blue-700">
+              <div className="border-b border-white/10 bg-[#252523] px-4 py-3">
+                <p className="text-xs font-semibold uppercase text-[#D9D6EA]">
                   Curator AI
                 </p>
-                <p className="mt-1 text-sm font-semibold text-slate-950">
+                <p className="mt-1 text-sm font-semibold text-white">
                   Shape this note instantly
                 </p>
               </div>
@@ -256,17 +256,17 @@ export const Toolbar = ({ editor }: Props) => {
                       key={item.action}
                       type="button"
                       onClick={() => handleAiAssist(item.action)}
-                      className="flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-blue-50"
+                      className="flex w-full items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-white/5"
                       role="menuitem"
                     >
-                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-700">
+                      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785]">
                         <Icon className="h-4 w-4" />
                       </span>
                       <span className="min-w-0">
-                        <span className="block text-sm font-semibold text-slate-950">
+                        <span className="block text-sm font-semibold text-white">
                           {item.label}
                         </span>
-                        <span className="mt-0.5 block text-xs leading-5 text-slate-500">
+                        <span className="mt-0.5 block text-xs leading-5 text-[#9C9B96]">
                           {item.description}
                         </span>
                       </span>
@@ -281,17 +281,17 @@ export const Toolbar = ({ editor }: Props) => {
 
       {suggestion && (
         <div className="px-3 pb-3">
-          <div className="overflow-hidden rounded-xl border border-blue-100 bg-gradient-to-b from-blue-50/80 to-white shadow-sm">
-            <div className="flex items-start justify-between gap-3 border-b border-blue-100/80 px-4 py-3">
+          <div className="overflow-hidden rounded-lg border border-white/10 bg-[#2A2A28] shadow-sm">
+            <div className="flex items-start justify-between gap-3 border-b border-white/10 px-4 py-3">
               <div className="flex min-w-0 items-start gap-3">
-                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-700 text-white shadow-sm shadow-blue-900/15">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785] shadow-sm shadow-black/20">
                   <Sparkles className="h-4 w-4" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-slate-950">
+                  <p className="text-sm font-semibold text-white">
                     {actionLabel[suggestion.action]}
                   </p>
-                  <p className="mt-0.5 text-xs leading-5 text-slate-500">
+                  <p className="mt-0.5 text-xs leading-5 text-[#9C9B96]">
                     Review it, then copy it or add it to your note.
                   </p>
                 </div>
@@ -300,7 +300,7 @@ export const Toolbar = ({ editor }: Props) => {
               <button
                 type="button"
                 onClick={() => setSuggestion(null)}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white hover:text-slate-700"
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[#8B8A84] transition-colors hover:bg-white/5 hover:text-white"
                 aria-label="Dismiss AI suggestion"
               >
                 <X className="h-4 w-4" />
@@ -308,16 +308,16 @@ export const Toolbar = ({ editor }: Props) => {
             </div>
 
             <div className="max-h-64 overflow-y-auto px-4 py-3">
-              <p className="whitespace-pre-wrap text-sm leading-6 text-slate-700">
+              <p className="whitespace-pre-wrap text-sm leading-6 text-[#C6C4BD]">
                 {suggestion.result}
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 bg-white px-4 py-3">
+            <div className="flex flex-wrap items-center gap-2 border-t border-white/10 bg-[#252523] px-4 py-3">
               <button
                 type="button"
                 onClick={handleCopy}
-                className="flex h-8 items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                className="flex h-8 items-center gap-1.5 rounded-lg border border-white/10 px-2.5 text-xs font-semibold text-[#C6C4BD] transition-colors hover:bg-white/5 hover:text-white"
               >
                 {copied ? (
                   <Check className="h-3.5 w-3.5 text-emerald-600" />
@@ -330,7 +330,7 @@ export const Toolbar = ({ editor }: Props) => {
               <button
                 type="button"
                 onClick={handleInsert}
-                className="flex h-8 items-center gap-1.5 rounded-lg border border-blue-200 px-2.5 text-xs font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+                className="flex h-8 items-center gap-1.5 rounded-lg border border-[#D9D6EA]/30 px-2.5 text-xs font-semibold text-[#D9D6EA] transition-colors hover:bg-white/5"
               >
                 <Plus className="h-3.5 w-3.5" />
                 Insert
@@ -339,7 +339,7 @@ export const Toolbar = ({ editor }: Props) => {
               <button
                 type="button"
                 onClick={handleReplace}
-                className="flex h-8 items-center gap-1.5 rounded-lg bg-blue-700 px-2.5 text-xs font-semibold text-white transition-colors hover:bg-blue-800"
+                className="flex h-8 items-center gap-1.5 rounded-lg bg-[#D9D6EA] px-2.5 text-xs font-bold text-[#373785] transition-colors hover:bg-[#C9C5E8]"
               >
                 <Replace className="h-3.5 w-3.5" />
                 Replace note

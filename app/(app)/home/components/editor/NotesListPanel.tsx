@@ -74,17 +74,17 @@ const NotesListPanel: React.FC<Props> = ({
   const visibleCount = filteredNotes.length;
 
   return (
-    <section className="flex h-full min-h-0 flex-col bg-[#F7F7FB]">
-      <div className="border-b border-gray-200 bg-white px-5 py-4">
-        <div className="mb-5 flex items-center gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-700 shadow-sm">
-            <Sparkles className="h-5 w-5 text-white" />
+    <section className="flex h-full min-h-0 flex-col bg-[#252523]">
+      <div className="border-b border-white/10 bg-[#252523] px-5 py-4">
+        <div className="mb-5 flex items-center gap-3 rounded-lg border border-white/10 bg-[#2A2A28] p-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#D9D6EA] shadow-sm">
+            <Sparkles className="h-5 w-5 text-[#373785]" />
           </div>
           <div className="min-w-0">
-            <p className="truncate text-lg font-bold leading-6 text-gray-950">
+            <p className="truncate text-lg font-bold leading-6 text-white">
               Curator
             </p>
-            <p className="text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-[#8B8A84]">
               Notes workspace
             </p>
           </div>
@@ -92,24 +92,27 @@ const NotesListPanel: React.FC<Props> = ({
 
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase text-blue-700">
+            <p className="text-xs font-semibold uppercase text-[#D9D6EA]">
               Library
             </p>
-            <h1 className="mt-1 text-2xl font-bold text-gray-950">Notes</h1>
+            <h1 className="mt-1 text-2xl font-bold text-white">Notes</h1>
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={onCreateNote} className="cursor-pointer">
+            <button
+              onClick={onCreateNote}
+              className="cursor-pointer rounded-lg bg-[#D9D6EA] px-3 py-2 text-sm font-bold text-[#373785] transition hover:bg-[#C9C5E8]"
+            >
               New Note
             </button>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-blue-100 bg-blue-50">
-              <BookOpenText className="h-5 w-5 text-blue-700" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5">
+              <BookOpenText className="h-5 w-5 text-[#D9D6EA]" />
             </div>
           </div>
         </div>
 
-        <Searchbar search={search} setSearch={setSearch}/>
+        <Searchbar search={search} setSearch={setSearch} />
 
-        <div className="mt-4 grid grid-cols-3 gap-1 rounded-lg bg-gray-100 p-1">
+        <div className="mt-4 grid grid-cols-3 gap-1 rounded-lg bg-[#1F1F1E] p-1">
           {filterOptions.map((option) => {
             const isActive = activeFilter === option.value;
 
@@ -120,8 +123,8 @@ const NotesListPanel: React.FC<Props> = ({
                 onClick={() => setActiveFilter(option.value)}
                 className={`rounded-md px-2 py-2 text-xs font-semibold transition-colors ${
                   isActive
-                    ? "bg-white text-blue-700 shadow-sm ring-1 ring-gray-200"
-                    : "text-gray-500 hover:text-gray-900"
+                    ? "bg-[#D9D6EA] text-[#373785] shadow-sm"
+                    : "text-[#8B8A84] hover:text-white"
                 }`}
               >
                 {option.label}
@@ -133,19 +136,19 @@ const NotesListPanel: React.FC<Props> = ({
 
       {loading ? (
         <div className="flex flex-1 items-center justify-center">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-200 border-t-blue-800" />
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-white/10 border-t-[#D9D6EA]" />
         </div>
       ) : notes.length > 0 ? (
         <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
           <div className="mb-3 flex items-center justify-between px-2">
-            <p className="text-xs font-semibold uppercase text-gray-500">
+            <p className="text-xs font-semibold uppercase text-[#8B8A84]">
               {activeFilter === "favorites"
                 ? "Favorite notes"
                 : activeFilter === "archived"
                   ? "Archived notes"
-                  : "Recent notes"}
+                : "Recent notes"}
             </p>
-            <span className="rounded-md bg-white px-2 py-1 text-xs font-medium text-gray-500 ring-1 ring-gray-200">
+            <span className="rounded-md bg-[#2A2A28] px-2 py-1 text-xs font-medium text-[#B8B6AF] ring-1 ring-white/10">
               {visibleCount}
             </span>
           </div>
@@ -157,16 +160,16 @@ const NotesListPanel: React.FC<Props> = ({
                   <article
                     key={note.id}
                     onClick={() => onSelectNote(note.id)}
-                    className="group cursor-pointer rounded-lg border border-gray-200 bg-white p-3 shadow-sm transition-colors hover:border-blue-200 hover:bg-blue-50/40"
+                    className="group cursor-pointer rounded-lg border border-white/10 bg-[#2A2A28] p-3 shadow-sm transition-colors hover:border-[#D9D6EA]/45 hover:bg-[#30302E]"
                   >
                     <div className="flex items-start gap-3">
-                      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors group-hover:bg-blue-100 group-hover:text-blue-700">
+                      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#1F1F1E] text-[#8B8A84] transition-colors group-hover:bg-[#D9D6EA] group-hover:text-[#373785]">
                         <FileText className="h-4 w-4" />
                       </div>
 
                       <div className="min-w-0 flex-1">
                         <div className="flex min-w-0 items-start gap-2">
-                          <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-gray-950">
+                          <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
                             {note.title || "Untitled"}
                           </h2>
                           <div className="flex shrink-0 items-center gap-1">
@@ -188,8 +191,8 @@ const NotesListPanel: React.FC<Props> = ({
                               }
                               className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
                                 note.isFavorite
-                                  ? "bg-amber-50 text-amber-500"
-                                  : "text-gray-400 hover:bg-white hover:text-amber-500"
+                                  ? "bg-amber-400/10 text-amber-300"
+                                  : "text-[#8B8A84] hover:bg-white/5 hover:text-amber-300"
                               }`}
                             >
                               <Star
@@ -215,15 +218,15 @@ const NotesListPanel: React.FC<Props> = ({
                               }
                               className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
                                 note.isArchived
-                                  ? "bg-blue-50 text-blue-700"
-                                  : "text-gray-400 hover:bg-white hover:text-blue-700"
+                                  ? "bg-[#D9D6EA]/10 text-[#D9D6EA]"
+                                  : "text-[#8B8A84] hover:bg-white/5 hover:text-[#D9D6EA]"
                               }`}
                             >
                               <ArchiveRestore className="h-4 w-4" />
                             </button>
                           </div>
                         </div>
-                        <p className="mt-1 line-clamp-2 text-sm leading-5 text-gray-500">
+                        <p className="mt-1 line-clamp-2 text-sm leading-5 text-[#9C9B96]">
                           {note.previewText}
                         </p>
                       </div>
@@ -233,8 +236,8 @@ const NotesListPanel: React.FC<Props> = ({
               })}
             </div>
           ) : (
-            <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-gray-200 bg-white px-6 text-center">
-              <p className="text-sm leading-6 text-gray-500">
+            <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-white/10 bg-[#2A2A28] px-6 text-center">
+              <p className="text-sm leading-6 text-[#9C9B96]">
                 No notes match this view yet.
               </p>
             </div>
@@ -243,13 +246,13 @@ const NotesListPanel: React.FC<Props> = ({
       ) : (
         <div className="flex flex-1 items-center justify-center px-8">
           <div className="mx-auto max-w-64 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl border border-gray-200 bg-white shadow-sm">
-              <BookOpenText className="h-8 w-8 text-blue-700" />
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-lg border border-white/10 bg-[#2A2A28] shadow-sm">
+              <BookOpenText className="h-8 w-8 text-[#D9D6EA]" />
             </div>
-            <p className="text-base font-semibold text-gray-950">
+            <p className="text-base font-semibold text-white">
               No notes yet
             </p>
-            <p className="mt-2 text-sm leading-6 text-gray-500">
+            <p className="mt-2 text-sm leading-6 text-[#9C9B96]">
               Your collection of thoughts will appear here once you start
               writing.
             </p>
@@ -257,21 +260,21 @@ const NotesListPanel: React.FC<Props> = ({
         </div>
       )}
 
-      <div className="border-t border-gray-200 bg-white px-5 py-4">
-        <div className="flex items-center gap-3 rounded-lg bg-gray-50 p-3">
+      <div className="border-t border-white/10 bg-[#252523] px-5 py-4">
+        <div className="flex items-center gap-3 rounded-lg bg-[#2A2A28] p-3">
           <Link
             href="/settings"
             aria-label="Settings"
             title="Settings"
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-blue-700 ring-1 ring-gray-200 transition-colors hover:bg-blue-50"
+            className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#1F1F1E] text-[#D9D6EA] ring-1 ring-white/10 transition-colors hover:bg-[#D9D6EA] hover:text-[#373785]"
           >
             <Settings className="h-4 w-4" />
           </Link>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-gray-900">
+            <p className="truncate text-sm font-semibold text-white">
               Curator Notes
             </p>
-            <p className="text-xs text-gray-500">Personal knowledge base</p>
+            <p className="text-xs text-[#8B8A84]">Personal knowledge base</p>
           </div>
           <button
             type="button"
@@ -279,7 +282,7 @@ const NotesListPanel: React.FC<Props> = ({
             disabled={isLoggingOut}
             aria-label="Log out"
             title="Log out"
-            className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-white text-gray-500 ring-1 ring-gray-200 transition-colors hover:bg-red-50 hover:text-red-700 hover:ring-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+            className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#1F1F1E] text-[#8B8A84] ring-1 ring-white/10 transition-colors hover:bg-red-400/10 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <LogOut className="h-4 w-4" />
           </button>

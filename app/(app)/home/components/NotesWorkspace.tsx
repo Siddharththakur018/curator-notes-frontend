@@ -120,24 +120,27 @@ const NotesWorkspace = () => {
   }, [search]);
 
   useEffect(() => {
-    setLoading(true)
-    getAllNotes(debouncedSearch)
-      .then((response) => {
+    const loadNotes = async () => {
+      setLoading(true);
+
+      try {
+        const response = await getAllNotes(debouncedSearch);
         setNotes(response.data.notes ?? []);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
         showErrorToast(error, { fallback: "Could not load your notes." });
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    void loadNotes();
   }, [debouncedSearch]);
 
   useEffect(() => {}, [isCreatingNote]);
   return (
-    <div className="flex h-full min-h-0">
-      <div className="w-[400px] border-r border-gray-200 bg-[#FAFAFB]">
+    <div className="flex h-full min-h-0 bg-[#1F1F1E]">
+      <div className="w-[400px] border-r border-white/10 bg-[#252523]">
         <NotesListPanel
           notes={notes}
           loading={loading}
@@ -149,7 +152,7 @@ const NotesWorkspace = () => {
           setSearch={setSearch}
         />
       </div>
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 bg-[#1F1F1E]">
         <EditorArea
           setNotes={setNotes}
           selectedNote={selectedNote}

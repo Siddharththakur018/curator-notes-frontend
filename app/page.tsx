@@ -1,3 +1,4 @@
+import AuthNavActions from "@/features/auth/components/AuthNavActions";
 import {
   ArrowRight,
   BrainCircuit,
@@ -111,9 +112,9 @@ const pricingPlans = [
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#F8FAFC] text-slate-950">
-      <header className="mx-auto flex w-full  items-center justify-between px-32 py-6 bg-[#30302E]">
+      <header className="mx-auto flex w-full items-center justify-between bg-[#30302E] px-5 py-5 sm:px-8 lg:px-16 xl:px-32">
         <Link href="/" className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785]">
             <FileText size={22} />
           </div>
 
@@ -136,21 +137,7 @@ export default function Home() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
-          <Link
-            href="/login"
-            className="rounded-2xl border border-slate-300 px-8 py-4 text-lg font-semibold text-white"
-          >
-            Sign in
-          </Link>
-
-          <Link
-            href="/signup"
-            className="rounded-2xl border border-slate-300 px-8 py-4 text-lg font-semibold text-white"
-          >
-            Get started free
-          </Link>
-        </div>
+        <AuthNavActions />
       </header>
 
       <section className="mx-auto justify-center flex bg-[#1F1F1E] min-h-[calc(100vh-110px)] w-full  items-center gap-10 px-5 pb-12 pt-8 sm:px-8 lg:pb-16">

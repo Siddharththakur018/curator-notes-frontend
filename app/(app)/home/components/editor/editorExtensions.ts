@@ -21,7 +21,7 @@ export const editorExtensions = [
     openOnClick: false,
 
     HTMLAttributes: {
-      class: "text-blue-600 underline",
+      class: "text-[#D9D6EA] underline",
     },
   }),
 

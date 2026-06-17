@@ -1,14 +1,30 @@
 .ProseMirror p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #d1d5db;
+  color: #6a6964;
   pointer-events: none;
   height: 0;
 }
 
 .ProseMirror blockquote {
-  border-left: 3px solid #2563eb;
+  border-left: 3px solid #d9d6ea;
   padding-left: 1rem;
-  color: #6b7280;
+  color: #c6c4bd;
   font-style: italic;
+}
+
+.ProseMirror :where(h1, h2, h3) {
+  color: #ffffff;
+}
+
+.ProseMirror :where(strong) {
+  color: #ffffff;
+}
+
+.ProseMirror :where(ul, ol) {
+  padding-left: 1.35rem;
+}
+
+.ProseMirror ::selection {
+  background: rgba(217, 214, 234, 0.24);
 }
