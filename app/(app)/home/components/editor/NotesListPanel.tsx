@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import {
   ArchiveRestore,
   BookOpenText,
+  Coins,
   FileText,
   LogOut,
   Settings,
@@ -45,9 +46,16 @@ const NotesListPanel: React.FC<Props> = ({
   setSearch,
 }) => {
   const router = useRouter();
-  const { logout } = useAuth();
+  const { appUser, logout } = useAuth();
   const [activeFilter, setActiveFilter] = useState<NoteFilter>("all");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const totalAiCredits = 1000;
+  const remainingAiCredits = Math.max(0, appUser?.aiCredits ?? 0);
+  const usedAiCredits = Math.max(0, totalAiCredits - remainingAiCredits);
+  const creditPercent = Math.min(
+    100,
+    Math.max(0, (remainingAiCredits / totalAiCredits) * 100),
+  );
 
   const handleLogout = async () => {
     try {
@@ -261,6 +269,30 @@ const NotesListPanel: React.FC<Props> = ({
       )}
 
       <div className="border-t border-white/10 bg-[#252523] px-5 py-4">
+        <div className="mb-3 rounded-lg border border-white/10 bg-[#2A2A28] p-3">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785]">
+                <Coins className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-white">AI credits</p>
+                <p className="text-xs text-[#8B8A84]">{usedAiCredits} used</p>
+              </div>
+            </div>
+            <p className="text-sm font-bold text-[#D9D6EA]">
+              {remainingAiCredits}/{totalAiCredits}
+            </p>
+          </div>
+
+          <div className="h-2 overflow-hidden rounded-full bg-[#1F1F1E]">
+            <div
+              className="h-full rounded-full bg-[#D9D6EA] transition-all"
+              style={{ width: `${creditPercent}%` }}
+            />
+          </div>
+        </div>
+
         <div className="flex items-center gap-3 rounded-lg bg-[#2A2A28] p-3">
           <Link
             href="/settings"

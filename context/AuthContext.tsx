@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateProfile,
-  UserCredential
+  UserCredential,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import axiosClient from "@/client/axios";
@@ -16,10 +16,27 @@ import { syncUser } from "@/services/auth.service";
 
 type AuthContextType = {
   user: User | null;
+  appUser: AppUser | null;
+  setAppUser: React.Dispatch<React.SetStateAction<AppUser | null>>;
   loading: boolean;
   login: (email: string, password: string) => Promise<UserCredential>;
-  signup: (name: string, email: string, password: string) => Promise<UserCredential>;
+  signup: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<UserCredential>;
   logout: () => Promise<void>;
+};
+
+type AppUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: "USER" | "PREMIUM" | "ADMIN";
+  aiCredits: number;
+  lastCreditReset: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,22 +47,33 @@ type AuthProviderProps = {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [appUser, setAppUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setLoading(true);
       setUser(currentUser);
 
-      if (currentUser) {
-        const token = await currentUser.getIdToken();
+      try {
+        if (currentUser) {
+          const token = await currentUser.getIdToken();
 
-        axiosClient.defaults.headers.common["Authorization"] =
-          `Bearer ${token}`;
-      } else {
-        delete axiosClient.defaults.headers.common["Authorization"];
+          axiosClient.defaults.headers.common["Authorization"] =
+            `Bearer ${token}`;
+
+          const response = await syncUser(token);
+          setAppUser(response.user);
+        } else {
+          delete axiosClient.defaults.headers.common["Authorization"];
+          setAppUser(null);
+        }
+      } catch (error) {
+        console.error(error);
+        setAppUser(null);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -60,8 +88,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const token = await userCredential.user.getIdToken();
 
-    await syncUser(token);
-
+    const response = await syncUser(token);
+    setAppUser(response.user);
     return userCredential;
   };
 
@@ -77,13 +105,14 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const token = await userCredential.user.getIdToken(true);
 
-    await syncUser(token);
-
+    const response = await syncUser(token);
+    setAppUser(response.user);
     return userCredential;
   };
 
   const logout = async () => {
     await signOut(auth);
+    setAppUser(null);
   };
 
   const value: AuthContextType = {
@@ -92,6 +121,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     signup,
     logout,
+    appUser,
+    setAppUser,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

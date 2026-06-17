@@ -20,6 +20,7 @@ import { ToolbarButton } from "./ToolbarButton";
 import { Icons } from "./icons";
 import { aiAssist } from "@/services/gemini.service";
 import { showErrorToast } from "@/utils/toast";
+import { useAuth } from "@/context/useAuth";
 
 type Props = {
   editor: Editor;
@@ -35,6 +36,7 @@ type AiSuggestion = {
 const Sep = () => <div className="mx-1 h-5 w-px shrink-0 bg-white/10" />;
 
 export const Toolbar = ({ editor }: Props) => {
+  const { setAppUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [suggestion, setSuggestion] = useState<AiSuggestion | null>(null);
@@ -96,6 +98,28 @@ export const Toolbar = ({ editor }: Props) => {
     return "";
   };
 
+  const getUpdatedCredits = (payload: unknown): number | null => {
+    if (!payload || typeof payload !== "object") return null;
+
+    const data = payload as Record<string, unknown>;
+
+    if (typeof data.aiCredits === "number") return data.aiCredits;
+
+    if (data.user && typeof data.user === "object") {
+      const user = data.user as Record<string, unknown>;
+
+      if (typeof user.aiCredits === "number") return user.aiCredits;
+    }
+
+    if (data.credits && typeof data.credits === "object") {
+      const credits = data.credits as Record<string, unknown>;
+
+      if (typeof credits.remaining === "number") return credits.remaining;
+    }
+
+    return null;
+  };
+
   const toEditorHtml = (text: string) => {
     const escapeHtml = (value: string) =>
       value
@@ -141,6 +165,13 @@ export const Toolbar = ({ editor }: Props) => {
 
       const response = await aiAssist({ action, text });
       const result = getAiResult(response).trim();
+      const updatedCredits = getUpdatedCredits(response);
+
+      if (updatedCredits !== null) {
+        setAppUser((current) =>
+          current ? { ...current, aiCredits: updatedCredits } : current,
+        );
+      }
 
       if (!result) {
         showErrorToast("AI Assistant returned an empty response.");
