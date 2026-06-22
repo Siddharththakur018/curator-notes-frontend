@@ -1,0 +1,18 @@
+{
+  "name": "Curator Notes",
+  "short_name": "Curator",
+  "description": "An AI note taking app for summaries, writing improvement, key point extraction, and personal knowledge management.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1F1F1E",
+  "theme_color": "#30302E",
+  "categories": ["productivity", "education", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}
