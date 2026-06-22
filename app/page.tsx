@@ -1,4 +1,5 @@
 import AuthNavActions from "@/features/auth/components/AuthNavActions";
+import AuthAwareCta from "@/features/auth/components/AuthAwareCta";
 import type { Metadata } from "next";
 import {
   ArrowRight,
@@ -334,12 +335,11 @@ export default function Home() {
           </p>
 
           <div className="mt-9 flex w-full max-w-sm flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
-            <Link
-              href="/signup"
+            <AuthAwareCta
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#1F1F1E] border px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-700/20"
             >
               Start for free - no card needed
-            </Link>
+            </AuthAwareCta>
             <Link
               href="#how-it-works"
               className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-[#1F1F1E] px-5 py-3 text-sm font-semibold text-white  shadow-sm"

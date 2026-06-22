@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import AuthAwareCta from "@/features/auth/components/AuthAwareCta";
 import { canonicalUrl } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -47,12 +47,11 @@ export default function FeaturesPage() {
           ))}
         </div>
 
-        <Link
-          href="/signup"
+        <AuthAwareCta
           className="mt-10 inline-flex rounded-lg bg-[#D9D6EA] px-5 py-3 text-sm font-bold text-[#373785]"
         >
           Start taking smarter notes
-        </Link>
+        </AuthAwareCta>
       </section>
     </main>
   );
