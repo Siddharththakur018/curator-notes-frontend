@@ -3,9 +3,9 @@ import {
   ArrowRight,
   BrainCircuit,
   CalendarCheck,
-  Check,
   FileText,
   Layers3,
+  Menu,
   Search,
   Sparkles,
   BookImage,
@@ -69,50 +69,51 @@ const steps = [
   },
 ];
 
-const pricingPlans = [
-  {
-    name: "Starter",
-    price: "Free",
-    description: "For light capture and personal note cleanup.",
-    features: ["25 captures per month", "Basic AI summaries", "Searchable notes"],
-    cta: "Start free",
-    href: "/signup",
-    highlighted: false,
-  },
-  {
-    name: "Pro",
-    price: "$12",
-    description: "For people who save ideas every day and want them to work.",
-    features: [
-      "Unlimited captures",
-      "Daily smart digest",
-      "AI connections across notes",
-      "Action reminders",
-    ],
-    cta: "Get started",
-    href: "/signup",
-    highlighted: true,
-  },
-  {
-    name: "Team",
-    price: "$29",
-    description: "For teams building a shared research and knowledge habit.",
-    features: [
-      "Shared workspaces",
-      "Team digests",
-      "Role-based access",
-      "Priority support",
-    ],
-    cta: "Create team",
-    href: "/signup",
-    highlighted: false,
-  },
-];
+// Pricing is temporarily hidden from the landing page.
+// const pricingPlans = [
+//   {
+//     name: "Starter",
+//     price: "Free",
+//     description: "For light capture and personal note cleanup.",
+//     features: ["25 captures per month", "Basic AI summaries", "Searchable notes"],
+//     cta: "Start free",
+//     href: "/signup",
+//     highlighted: false,
+//   },
+//   {
+//     name: "Pro",
+//     price: "$12",
+//     description: "For people who save ideas every day and want them to work.",
+//     features: [
+//       "Unlimited captures",
+//       "Daily smart digest",
+//       "AI connections across notes",
+//       "Action reminders",
+//     ],
+//     cta: "Get started",
+//     href: "/signup",
+//     highlighted: true,
+//   },
+//   {
+//     name: "Team",
+//     price: "$29",
+//     description: "For teams building a shared research and knowledge habit.",
+//     features: [
+//       "Shared workspaces",
+//       "Team digests",
+//       "Role-based access",
+//       "Priority support",
+//     ],
+//     cta: "Create team",
+//     href: "/signup",
+//     highlighted: false,
+//   },
+// ];
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#F8FAFC] text-slate-950">
-      <header className="mx-auto flex w-full items-center justify-between bg-[#30302E] px-5 py-5 sm:px-8 lg:px-16 xl:px-32">
+      <header className="relative z-20 mx-auto flex w-full items-center justify-between bg-[#30302E] px-5 py-5 sm:px-8 lg:px-16 xl:px-32">
         <Link href="/" className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#D9D6EA] text-[#373785]">
             <FileText size={22} />
@@ -131,23 +132,58 @@ export default function Home() {
             How it works
           </Link>
 
-          <Link href="#pricing" className="text-lg font-medium text-white">
+          {/* <Link href="#pricing" className="text-lg font-medium text-white">
             Pricing
-          </Link>
+          </Link> */}
         </nav>
 
         {/* Actions */}
-        <AuthNavActions />
+        <div className="hidden sm:block">
+          <AuthNavActions />
+        </div>
+
+        <div className="flex items-center gap-3 sm:hidden">
+          <AuthNavActions variant="avatar" />
+
+          <details className="group">
+            <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white marker:hidden">
+              <Menu size={22} />
+            </summary>
+            <div className="absolute left-5 right-5 top-[76px] rounded-lg border border-white/10 bg-[#252523] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.42)]">
+              <nav className="mb-4 grid gap-2">
+                <Link
+                  href="#features"
+                  className="rounded-lg px-3 py-3 text-sm font-bold text-white hover:bg-white/5"
+                >
+                  Features
+                </Link>
+                <Link
+                  href="#how-it-works"
+                  className="rounded-lg px-3 py-3 text-sm font-bold text-white hover:bg-white/5"
+                >
+                  How it works
+                </Link>
+                {/* <Link
+                  href="#pricing"
+                  className="rounded-lg px-3 py-3 text-sm font-bold text-white hover:bg-white/5"
+                >
+                  Pricing
+                </Link> */}
+              </nav>
+              <AuthNavActions variant="mobileMenu" />
+            </div>
+          </details>
+        </div>
       </header>
 
-      <section className="mx-auto justify-center flex bg-[#1F1F1E] min-h-[calc(100vh-110px)] w-full  items-center gap-10 px-5 pb-12 pt-8 sm:px-8 lg:pb-16">
-        <div className="w-full items-center flex flex-col">
-          <div className="mb-6 inline-flex items-center gap-2 border font-bold border-slate-200 bg-[#EEEDFE] rounded-full px-3 py-2 text-md text-slate-600 shadow-sm">
+      <section className="mx-auto flex min-h-[calc(100vh-84px)] w-full items-center justify-center gap-10 bg-[#1F1F1E] px-5 pb-12 pt-10 sm:px-8 lg:pb-16">
+        <div className="flex w-full flex-col items-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-[#EEEDFE] px-3 py-2 text-sm font-bold text-slate-600 shadow-sm sm:text-base">
             <Sparkles size={16} className="text-amber-500" />
             Your second brain, but it actually works
           </div>
 
-          <h1 className="max-w-4xl text-2xl text-white font-bold leading-[1.02] tracking-normal sm:text-6xl lg:text-7xl">
+          <h1 className="max-w-4xl text-center text-4xl font-bold leading-[1.04] tracking-normal text-white sm:text-6xl lg:text-7xl">
             Stop saving. <span className="text-[#373785]">Start knowing.</span>
           </h1>
 
@@ -157,7 +193,7 @@ export default function Home() {
             you to actually act on it.
           </p>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-9 flex w-full max-w-sm flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
             <Link
               href="/signup"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#1F1F1E] border px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-700/20"
@@ -219,25 +255,25 @@ export default function Home() {
       </section>
 
       <section className="flex min-h-[calc(100vh-110px)] items-center justify-center bg-[#1F1F1E] px-5 py-10">
-        <div className="w-full max-w-7xl overflow-hidden rounded-[28px] border border-white/10 bg-[#252523] shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
+        <div className="w-full max-w-7xl overflow-hidden rounded-lg border border-white/10 bg-[#252523] shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
           {/* Browser Bar */}
-          <div className="flex h-20 items-center border-b border-white/10 px-8">
+          <div className="flex h-16 items-center border-b border-white/10 px-4 sm:h-20 sm:px-8">
             <div className="flex gap-3">
-              <span className="h-4 w-4 rounded-full bg-[#6A6964]" />
-              <span className="h-4 w-4 rounded-full bg-[#6A6964]" />
-              <span className="h-4 w-4 rounded-full bg-[#6A6964]" />
+              <span className="h-3 w-3 rounded-full bg-[#6A6964] sm:h-4 sm:w-4" />
+              <span className="h-3 w-3 rounded-full bg-[#6A6964] sm:h-4 sm:w-4" />
+              <span className="h-3 w-3 rounded-full bg-[#6A6964] sm:h-4 sm:w-4" />
             </div>
 
             <div className="flex flex-1 justify-center">
-              <div className="rounded-full border border-white/10 bg-[#2C2C29] px-8 py-2 text-lg text-[#9C9B96]">
+              <div className="rounded-full border border-white/10 bg-[#2C2C29] px-4 py-2 text-xs text-[#9C9B96] sm:px-8 sm:text-lg">
                 curator.app/home
               </div>
             </div>
           </div>
 
-          <div className="grid min-h-[680px] grid-cols-[280px_1fr]">
+          <div className="grid min-h-[680px] lg:grid-cols-[280px_1fr]">
             {/* Sidebar */}
-            <aside className="border-r border-white/10 bg-[#222220] px-6 py-6">
+            <aside className="hidden border-r border-white/10 bg-[#222220] px-6 py-6 lg:block">
               <nav className="space-y-2">
                 {["Home", "Inbox", "Digest", "Notes"].map((item, i) => (
                   <div
@@ -284,25 +320,25 @@ export default function Home() {
             </aside>
 
             {/* Main */}
-            <main className="bg-[#2A2A28] px-12 py-12">
-              <h1 className="text-6xl font-bold text-white">
+            <main className="bg-[#2A2A28] px-5 py-8 sm:px-8 lg:px-12 lg:py-12">
+              <h1 className="text-3xl font-bold text-white sm:text-5xl lg:text-6xl">
                 Good morning, Siddharth
               </h1>
 
               <div className="mt-5 flex items-center gap-3">
                 <div className="h-3 w-3 rounded-full bg-emerald-500" />
-                <p className="text-2xl text-[#9D9C96]">
+                <p className="text-base text-[#9D9C96] sm:text-2xl">
                   Friday, June 5 · Your digest is ready
                 </p>
               </div>
 
               {/* Digest Card */}
-              <div className="mt-10 max-w-4xl rounded-[24px] bg-[#D9D6EA] p-8">
-                <h3 className="text-3xl font-semibold text-[#4A4699]">
+              <div className="mt-10 max-w-4xl rounded-lg bg-[#D9D6EA] p-5 sm:p-8">
+                <h3 className="text-xl font-semibold text-[#4A4699] sm:text-3xl">
                   ✦ This week&apos;s digest — 3 things that matter
                 </h3>
 
-                <div className="mt-6 space-y-5 text-2xl text-[#4A4699]">
+                <div className="mt-6 space-y-5 text-base text-[#4A4699] sm:text-2xl">
                   <p>
                     → You saved 14 items. 4 are actually useful to you right
                     now.
@@ -315,7 +351,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <p className="mt-10 max-w-5xl text-3xl leading-relaxed text-[#C6C4BD]">
+              <p className="mt-10 max-w-5xl text-xl leading-relaxed text-[#C6C4BD] sm:text-3xl">
                 You captured 3 notes, 2 links, and 1 PDF this week. Curator read
                 them so you don&apos;t have to.
               </p>
@@ -383,7 +419,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section
+      {/* <section
         id="pricing"
         className="bg-[#1F1F1E] px-5 py-20 sm:px-8 lg:px-16"
       >
@@ -473,7 +509,7 @@ export default function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

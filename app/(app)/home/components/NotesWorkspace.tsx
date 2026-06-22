@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import EditorArea from "./editor/EditorArea";
 import NotesListPanel from "./editor/NotesListPanel";
-import { getAllNotes, getNoteById, updateNote } from "@/services/notes.service";
+import { getAllNotes, getNoteById } from "@/services/notes.service";
 import { Note } from "@/types/notes";
 import { showErrorToast } from "@/utils/toast";
+import { Menu } from "lucide-react";
 
 const NotesWorkspace = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -15,11 +16,13 @@ const NotesWorkspace = () => {
   const [newNoteTrigger, setNewNoteTrigger] = useState(0);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleCreateNote = () => {
     setSelectedNote(null);
     setIsCreatingNote(true);
     setNewNoteTrigger((prev) => prev + 1);
+    setIsSidebarOpen(false);
   };
 
   const handleUpdateNote = async (id: string) => {
@@ -27,85 +30,10 @@ const NotesWorkspace = () => {
       const response = await getNoteById(id);
       setIsCreatingNote(false);
       setSelectedNote(response.data.note);
+      setIsSidebarOpen(false);
     } catch (error) {
       console.error(error);
       showErrorToast(error, { fallback: "Could not open this note." });
-    }
-  };
-
-  const handleToggleFavorite = async (id: string) => {
-    const note = notes.find((item) => item.id === id);
-    if (!note) return;
-
-    const nextNote = {
-      ...note,
-      isFavorite: !note.isFavorite,
-    };
-
-    setNotes((prev) => prev.map((item) => (item.id === id ? nextNote : item)));
-    if (selectedNote?.id === id) setSelectedNote(nextNote);
-
-    try {
-      const response = await updateNote(id, {
-        title: nextNote.title,
-        content: nextNote.content,
-        previewText: nextNote.previewText,
-        searchText: nextNote.content,
-        isFavorite: nextNote.isFavorite,
-        isArchived: nextNote.isArchived,
-      });
-      const updatedNote = {
-        ...nextNote,
-        ...(response.data.note ?? {}),
-      };
-
-      setNotes((prev) =>
-        prev.map((item) => (item.id === id ? updatedNote : item)),
-      );
-      if (selectedNote?.id === id) setSelectedNote(updatedNote);
-    } catch (error) {
-      console.error(error);
-      showErrorToast(error, { fallback: "Could not update favorite status." });
-      setNotes((prev) => prev.map((item) => (item.id === id ? note : item)));
-      if (selectedNote?.id === id) setSelectedNote(note);
-    }
-  };
-
-  const handleToggleArchive = async (id: string) => {
-    const note = notes.find((item) => item.id === id);
-    if (!note) return;
-
-    const nextNote = {
-      ...note,
-      isArchived: !note.isArchived,
-    };
-
-    setNotes((prev) => prev.map((item) => (item.id === id ? nextNote : item)));
-    if (selectedNote?.id === id) setSelectedNote(nextNote);
-
-    try {
-      const response = await updateNote(id, {
-        title: nextNote.title,
-        content: nextNote.content,
-        previewText: nextNote.previewText,
-        isFavorite: nextNote.isFavorite,
-        isArchived: nextNote.isArchived,
-        searchText: nextNote.content,
-      });
-      const updatedNote = {
-        ...nextNote,
-        ...(response.data.note ?? {}),
-      };
-
-      setNotes((prev) =>
-        prev.map((item) => (item.id === id ? updatedNote : item)),
-      );
-      if (selectedNote?.id === id) setSelectedNote(updatedNote);
-    } catch (error) {
-      console.error(error);
-      showErrorToast(error, { fallback: "Could not update archive status." });
-      setNotes((prev) => prev.map((item) => (item.id === id ? note : item)));
-      if (selectedNote?.id === id) setSelectedNote(note);
     }
   };
 
@@ -139,17 +67,38 @@ const NotesWorkspace = () => {
 
   useEffect(() => {}, [isCreatingNote]);
   return (
-    <div className="flex h-full min-h-0 bg-[#1F1F1E]">
-      <div className="w-[400px] border-r border-white/10 bg-[#252523]">
+    <div className="relative flex h-full min-h-0 bg-[#1F1F1E]">
+      {isSidebarOpen ? (
+        <button
+          type="button"
+          aria-label="Close notes sidebar"
+          className="fixed inset-0 z-30 bg-black/50 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      ) : null}
+
+      <button
+        type="button"
+        aria-label="Open notes sidebar"
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed left-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-lg border border-white/10 bg-[#252523] text-white shadow-lg shadow-black/30 lg:hidden"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
+
+      <div
+        className={`fixed inset-y-0 left-0 z-40 w-[min(86vw,400px)] border-r border-white/10 bg-[#252523] transition-transform duration-300 lg:static lg:z-auto lg:w-[400px] lg:translate-x-0 ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
         <NotesListPanel
           notes={notes}
           loading={loading}
           onSelectNote={handleUpdateNote}
-          onToggleArchive={handleToggleArchive}
-          onToggleFavorite={handleToggleFavorite}
           onCreateNote={handleCreateNote}
           search={search}
           setSearch={setSearch}
+          onCloseSidebar={() => setIsSidebarOpen(false)}
         />
       </div>
       <div className="min-w-0 flex-1 bg-[#1F1F1E]">

@@ -135,13 +135,13 @@ const EditorArea: React.FC<Props> = ({
 
   return (
     <div className="h-full w-full overflow-y-auto bg-[#1F1F1E]">
-      <div className="mx-auto max-w-4xl px-6 py-6">
+      <div className="mx-auto max-w-4xl px-4 pb-6 pt-16 sm:px-6 lg:pt-6">
         <div className="flex flex-col overflow-hidden rounded-lg border border-white/10 bg-[#282826] shadow-[0_24px_80px_rgba(0,0,0,0.28)]">
           <TopBar saveStatus={saveStatus} />
 
           <Toolbar editor={editor} />
 
-          <div className="flex-1 px-10 py-8">
+          <div className="flex-1 px-5 py-6 sm:px-10 sm:py-8">
             <input
               type="text"
               placeholder="Untitled"
@@ -149,7 +149,7 @@ const EditorArea: React.FC<Props> = ({
               onChange={(e) => setTitle(e.target.value)}
               className="
                 w-full bg-transparent border-none outline-none
-                text-[32px] font-semibold tracking-tight
+                text-3xl font-semibold tracking-tight sm:text-[32px]
                 text-white placeholder:text-[#6A6964]
                 leading-tight mb-3
               "

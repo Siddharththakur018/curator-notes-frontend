@@ -38,14 +38,14 @@ type EmptyStateProps = {
 const EmptyState = ({ onCreateNote }: EmptyStateProps) => {
   return (
     <>
-      <div className="flex items-center justify-between border-b border-white/10 bg-[#252523] px-6 py-4">
-        <div className="text-4xl font-bold text-white">
+      <div className="flex items-center justify-between border-b border-white/10 bg-[#252523] px-5 py-4 sm:px-6">
+        <div className="text-2xl font-bold text-white sm:text-4xl">
           Editor Workspace
         </div>
       </div>
-      <div className="mx-auto flex min-h-full max-w-7xl flex-col items-center bg-[#1F1F1E] px-8 py-10 text-white">
+      <div className="mx-auto flex min-h-full max-w-7xl flex-col items-center bg-[#1F1F1E] px-5 py-10 text-white sm:px-8">
         <div className="max-w-lg text-center">
-          <h1 className="text-4xl font-extrabold mb-4">
+          <h1 className="mb-4 text-3xl font-extrabold sm:text-4xl">
             Your thinking starts here.
           </h1>
           <p className="text-lg leading-8 text-[#C6C4BD]">
@@ -53,21 +53,21 @@ const EmptyState = ({ onCreateNote }: EmptyStateProps) => {
             intellectual workspace. Experience the clarity of a quiet interface
             designed for deep work.
           </p>
-          <div className="w-full flex justify-around mt-10">
+          <div className="mt-10 flex w-full flex-col justify-center gap-3 sm:flex-row">
             <button
               onClick={onCreateNote}
-              className="flex cursor-pointer items-center gap-4 rounded-lg bg-[#D9D6EA] px-8 py-4 text-lg font-bold text-[#373785] transition hover:bg-[#C9C5E8]"
+              className="flex cursor-pointer items-center justify-center gap-4 rounded-lg bg-[#D9D6EA] px-6 py-4 text-base font-bold text-[#373785] transition hover:bg-[#C9C5E8] sm:px-8 sm:text-lg"
             >
               <NotebookPen /> Create First Note
             </button>
-            <button className="flex cursor-pointer items-center gap-4 rounded-lg border border-white/10 px-8 py-2 text-lg font-bold text-white transition hover:border-[#D9D6EA]/45 hover:bg-white/5">
+            <button className="flex cursor-pointer items-center justify-center gap-4 rounded-lg border border-white/10 px-6 py-4 text-base font-bold text-white transition hover:border-[#D9D6EA]/45 hover:bg-white/5 sm:px-8 sm:text-lg">
               <Sparkles />
               Generate with AI
             </button>
           </div>
         </div>
 
-        <div className="mt-16 grid w-full grid-cols-4 gap-6">
+        <div className="mt-16 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {data.map((item, index) => {
             const Icon = item.icon;
 

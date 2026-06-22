@@ -1,13 +1,12 @@
 import { useMemo, useState } from "react";
 import {
-  ArchiveRestore,
   BookOpenText,
   Coins,
   FileText,
   LogOut,
   Settings,
   Sparkles,
-  Star,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,34 +19,23 @@ type Props = {
   notes: Note[];
   loading: boolean;
   onSelectNote: (id: string) => void;
-  onToggleArchive: (id: string) => void;
-  onToggleFavorite: (id: string) => void;
   onCreateNote: () => void;
   search: string;
   setSearch: (value: string) => void;
+  onCloseSidebar?: () => void;
 };
-
-type NoteFilter = "all" | "favorites" | "archived";
-
-const filterOptions: { label: string; value: NoteFilter }[] = [
-  { label: "All", value: "all" },
-  { label: "Favorites", value: "favorites" },
-  { label: "Archived", value: "archived" },
-];
 
 const NotesListPanel: React.FC<Props> = ({
   notes,
   loading,
   onSelectNote,
-  onToggleArchive,
-  onToggleFavorite,
   onCreateNote,
   search,
   setSearch,
+  onCloseSidebar,
 }) => {
   const router = useRouter();
   const { appUser, logout } = useAuth();
-  const [activeFilter, setActiveFilter] = useState<NoteFilter>("all");
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const totalAiCredits = 1000;
   const remainingAiCredits = Math.max(0, appUser?.aiCredits ?? 0);
@@ -70,20 +58,28 @@ const NotesListPanel: React.FC<Props> = ({
   };
 
   const filteredNotes = useMemo(() => {
-    return notes.filter((note) => {
-      return activeFilter === "favorites"
-        ? note.isFavorite
-        : activeFilter === "archived"
-          ? note.isArchived
-          : !note.isArchived;
-    });
-  }, [activeFilter, notes]);
+    return notes.filter((note) => !note.isArchived);
+  }, [notes]);
 
   const visibleCount = filteredNotes.length;
 
   return (
     <section className="flex h-full min-h-0 flex-col bg-[#252523]">
       <div className="border-b border-white/10 bg-[#252523] px-5 py-4">
+        <div className="mb-4 flex items-center justify-between lg:hidden">
+          <p className="text-sm font-bold uppercase tracking-wide text-[#D9D6EA]">
+            Workspace
+          </p>
+          <button
+            type="button"
+            aria-label="Close notes sidebar"
+            onClick={onCloseSidebar}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-[#C6C4BD] transition hover:text-white"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+
         <div className="mb-5 flex items-center gap-3 rounded-lg border border-white/10 bg-[#2A2A28] p-3">
           <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#D9D6EA] shadow-sm">
             <Sparkles className="h-5 w-5 text-[#373785]" />
@@ -119,27 +115,6 @@ const NotesListPanel: React.FC<Props> = ({
         </div>
 
         <Searchbar search={search} setSearch={setSearch} />
-
-        <div className="mt-4 grid grid-cols-3 gap-1 rounded-lg bg-[#1F1F1E] p-1">
-          {filterOptions.map((option) => {
-            const isActive = activeFilter === option.value;
-
-            return (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => setActiveFilter(option.value)}
-                className={`rounded-md px-2 py-2 text-xs font-semibold transition-colors ${
-                  isActive
-                    ? "bg-[#D9D6EA] text-[#373785] shadow-sm"
-                    : "text-[#8B8A84] hover:text-white"
-                }`}
-              >
-                {option.label}
-              </button>
-            );
-          })}
-        </div>
       </div>
 
       {loading ? (
@@ -150,11 +125,7 @@ const NotesListPanel: React.FC<Props> = ({
         <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
           <div className="mb-3 flex items-center justify-between px-2">
             <p className="text-xs font-semibold uppercase text-[#8B8A84]">
-              {activeFilter === "favorites"
-                ? "Favorite notes"
-                : activeFilter === "archived"
-                  ? "Archived notes"
-                : "Recent notes"}
+              Recent notes
             </p>
             <span className="rounded-md bg-[#2A2A28] px-2 py-1 text-xs font-medium text-[#B8B6AF] ring-1 ring-white/10">
               {visibleCount}
@@ -180,59 +151,6 @@ const NotesListPanel: React.FC<Props> = ({
                           <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
                             {note.title || "Untitled"}
                           </h2>
-                          <div className="flex shrink-0 items-center gap-1">
-                            <button
-                              type="button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                onToggleFavorite(note.id);
-                              }}
-                              aria-label={
-                                note.isFavorite
-                                  ? "Remove from favorites"
-                                  : "Add to favorites"
-                              }
-                              title={
-                                note.isFavorite
-                                  ? "Remove from favorites"
-                                  : "Add to favorites"
-                              }
-                              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
-                                note.isFavorite
-                                  ? "bg-amber-400/10 text-amber-300"
-                                  : "text-[#8B8A84] hover:bg-white/5 hover:text-amber-300"
-                              }`}
-                            >
-                              <Star
-                                className="h-4 w-4"
-                                fill={note.isFavorite ? "currentColor" : "none"}
-                              />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                onToggleArchive(note.id);
-                              }}
-                              aria-label={
-                                note.isArchived
-                                  ? "Restore note"
-                                  : "Archive note"
-                              }
-                              title={
-                                note.isArchived
-                                  ? "Restore note"
-                                  : "Archive note"
-                              }
-                              className={`flex h-7 w-7 items-center justify-center rounded-md transition-colors ${
-                                note.isArchived
-                                  ? "bg-[#D9D6EA]/10 text-[#D9D6EA]"
-                                  : "text-[#8B8A84] hover:bg-white/5 hover:text-[#D9D6EA]"
-                              }`}
-                            >
-                              <ArchiveRestore className="h-4 w-4" />
-                            </button>
-                          </div>
                         </div>
                         <p className="mt-1 line-clamp-2 text-sm leading-5 text-[#9C9B96]">
                           {note.previewText}
