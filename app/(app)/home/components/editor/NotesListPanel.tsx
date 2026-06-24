@@ -34,9 +34,7 @@ const NotesListPanel: React.FC<Props> = ({
   setSearch,
   onCloseSidebar,
 }) => {
-  const router = useRouter();
-  const { appUser, logout } = useAuth();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { appUser } = useAuth();
   const totalAiCredits = 1000;
   const remainingAiCredits = Math.max(0, appUser?.aiCredits ?? 0);
   const usedAiCredits = Math.max(0, totalAiCredits - remainingAiCredits);
@@ -44,18 +42,6 @@ const NotesListPanel: React.FC<Props> = ({
     100,
     Math.max(0, (remainingAiCredits / totalAiCredits) * 100),
   );
-
-  const handleLogout = async () => {
-    try {
-      setIsLoggingOut(true);
-      await logout();
-      router.replace("/login");
-    } catch (error) {
-      console.error(error);
-      showErrorToast(error, { fallback: "Could not log you out." });
-      setIsLoggingOut(false);
-    }
-  };
 
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => !note.isArchived);
@@ -226,16 +212,6 @@ const NotesListPanel: React.FC<Props> = ({
             </p>
             <p className="text-xs text-[#8B8A84]">Personal knowledge base</p>
           </div>
-          <button
-            type="button"
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-            aria-label="Log out"
-            title="Log out"
-            className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-[#1F1F1E] text-[#8B8A84] ring-1 ring-white/10 transition-colors hover:bg-red-400/10 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <LogOut className="h-4 w-4" />
-          </button>
         </div>
       </div>
     </section>
