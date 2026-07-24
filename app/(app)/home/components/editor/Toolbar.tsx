@@ -80,7 +80,14 @@ export const Toolbar = ({ editor }: Props) => {
 
     if (payload && typeof payload === "object") {
       const data = payload as Record<string, unknown>;
-      const possibleKeys = ["result", "response", "text", "content", "message", "data"];
+      const possibleKeys = [
+        "result",
+        "response",
+        "text",
+        "content",
+        "message",
+        "data",
+      ];
 
       for (const key of possibleKeys) {
         const value = data[key];
@@ -133,7 +140,10 @@ export const Toolbar = ({ editor }: Props) => {
       .split(/\n{2,}/)
       .map((paragraph) => paragraph.trim())
       .filter(Boolean)
-      .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br />")}</p>`)
+      .map(
+        (paragraph) =>
+          `<p>${escapeHtml(paragraph).replace(/\n/g, "<br />")}</p>`,
+      )
       .join("");
   };
 
@@ -151,7 +161,9 @@ export const Toolbar = ({ editor }: Props) => {
     };
   }, []);
 
-  const handleAiAssist = async (action: "summarize" | "improve" | "extract") => {
+  const handleAiAssist = async (
+    action: "summarize" | "improve" | "extract",
+  ) => {
     try {
       const text = editor.getText().trim();
 
@@ -179,13 +191,23 @@ export const Toolbar = ({ editor }: Props) => {
       }
 
       setSuggestion({ action, result });
-    } catch (error) {
-      console.error(error);
-      showErrorToast(error, {
-        fallback: "AI Assistant could not complete that request.",
-      });
-    } finally {
-      setLoading(false);
+    } catch (error: any) {
+      const status = error?.response?.status;
+      const message = error?.response?.data?.message;
+
+      if (status === 402) {
+        showErrorToast(
+          "You've run out of AI credits. Upgrade or wait for next reset.",
+        );
+      } else if (status === 429) {
+        showErrorToast("Too many requests. Please slow down and try again.");
+      } else if (status === 500 || status === 503) {
+        showErrorToast(
+          message || "AI service is unavailable. Please try again later.",
+        );
+      } else {
+        showErrorToast("AI Assistant could not complete that request.");
+      }
     }
   };
 
