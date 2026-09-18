@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import HomeDashboard from "./components/HomeDashboard";
 
 export default function HomePage() {
-  redirect("/notes");
+  return <HomeDashboard />;
 }

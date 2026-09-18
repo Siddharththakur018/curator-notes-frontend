@@ -71,3 +71,19 @@ export const showErrorToast = (
 
   return message;
 };
+
+export const showSuccessToast = (message: string) => {
+  toast.success(message, {
+    toastId: message,
+  });
+
+  return message;
+};
+
+export const showInfoToast = (message: string) => {
+  toast.info(message, {
+    toastId: message,
+  });
+
+  return message;
+};

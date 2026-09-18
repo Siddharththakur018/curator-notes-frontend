@@ -31,7 +31,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 import { useAuth } from "@/context/useAuth";
-import { showErrorToast } from "@/utils/toast";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
 
 type SettingsSection =
   | "profile"
@@ -300,6 +300,7 @@ export default function SettingsPage() {
       setSavedName(displayName.trim());
       setDisplayName(displayName.trim());
       setSavedAt("Saved just now");
+      showSuccessToast("Preferences saved.");
     } catch (error) {
       console.error(error);
       showErrorToast(error, { fallback: "Could not save your preferences." });
@@ -312,6 +313,7 @@ export default function SettingsPage() {
     try {
       setIsLoggingOut(true);
       await logout();
+      showSuccessToast("You've been logged out.");
       router.replace("/login");
     } catch (error) {
       console.error(error);

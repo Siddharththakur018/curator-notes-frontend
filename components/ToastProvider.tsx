@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { CircleAlert } from "lucide-react";
-import { ToastContainer } from "react-toastify";
+import { CheckCircle2, CircleAlert, Info } from "lucide-react";
+import { Slide, ToastContainer } from "react-toastify";
 
 import { showErrorToast } from "@/utils/toast";
 
@@ -40,9 +40,18 @@ export const ToastProvider = () => {
       draggable
       pauseOnHover
       theme="dark"
+      transition={Slide}
       className="curator-toast-container"
-      icon={<CircleAlert className="h-4 w-4" />}
-      toastClassName={() => "curator-toast"}
+      icon={({ type }) => {
+        if (type === "success") return <CheckCircle2 className="h-4 w-4" />;
+        if (type === "info") return <Info className="h-4 w-4" />;
+        return <CircleAlert className="h-4 w-4" />;
+      }}
+      toastClassName={(context) =>
+        ["curator-toast", context?.defaultClassName]
+          .filter(Boolean)
+          .join(" ")
+      }
       progressClassName="curator-toast-progress"
     />
   );

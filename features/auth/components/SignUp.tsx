@@ -12,7 +12,7 @@ import {
   isValidPassword,
 } from "@/utils/validation";
 import Loader from "@/components/Loader";
-import { showErrorToast } from "@/utils/toast";
+import { showErrorToast, showSuccessToast } from "@/utils/toast";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -36,8 +36,8 @@ const SignUp = () => {
     try {
       setLoading(true);
       await signup(name, email, password);
+      showSuccessToast("Account created. Please sign in to continue.");
       router.push("/login");
-      console.log("Signup success");
     } catch (error) {
       console.error(error);
       const message = showErrorToast(error, {
